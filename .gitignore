@@ -1,0 +1,38 @@
+HELP.md
+
+target/
+
+!.mvn/wrapper/maven-wrapper.jar
+
+# prevents package named 'target' from being ignored 
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# sts
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# intellij
+.idea
+*.iws
+*.iml
+*.ipr
+
+# netbeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+# prevents package named 'build' from being ignored
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# vscode
+.vscode/
