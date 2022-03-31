@@ -1,12 +1,19 @@
 import React from 'react';
-import RegistrationForm from "./Components/Register/RegistrationForm.jsx";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Chat from './Components/Chat/Chat.jsx';
 import LoginForm from "./Components/Login/LoginForm.jsx";
+
 
 function App() {
   return (
-    <React.Fragment>
-      <RegistrationForm/>
-    </React.Fragment>
+    <>
+      <Router>
+          <Routes>
+              <Route exact path="/chat" element={<Chat/>}/>
+              <Route exact path='/login' element={<LoginForm/>}/>
+          </Routes>
+      </Router>
+    </>  
   );
 }
 
