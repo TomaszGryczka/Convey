@@ -1,4 +1,4 @@
-package com.github.tomaszgryczka.convey.user;
+package com.github.tomaszgryczka.convey.chatuser;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    public void signUp(User user) {
-        userRepository.save(user);
+    public void signUp(User chatUser) {
+        userRepository.save(chatUser);
     }
 }
