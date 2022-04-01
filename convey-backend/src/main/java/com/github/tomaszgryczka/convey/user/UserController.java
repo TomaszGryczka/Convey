@@ -13,8 +13,8 @@ public class UserController {
 
     private UserService userService;
 
-    @PostMapping("/users")
-    public void signUp(@RequestBody User user) {
-        userService.signUp(user);
-    }
+//    @PostMapping("/users")
+//    public void signUp(@RequestBody User user) {
+//        userService.signUp(user);
+//    }
 }

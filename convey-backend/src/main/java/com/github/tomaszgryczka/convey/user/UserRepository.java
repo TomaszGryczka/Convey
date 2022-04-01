@@ -1,4 +1,4 @@
-package com.github.tomaszgryczka.convey.chatuser;
+package com.github.tomaszgryczka.convey.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
