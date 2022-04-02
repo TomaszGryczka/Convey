@@ -1,6 +1,5 @@
 package com.github.tomaszgryczka.convey.authentication.login;
 
-import com.github.tomaszgryczka.convey.authentication.JWTAuthenticationResponse;
 import com.github.tomaszgryczka.convey.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +18,11 @@ public class LoginController {
     @PostMapping("/session")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
 
-        String token = userService.signIn(loginRequest.getUsername(), loginRequest.getPassword());
+//        String token = userService.signIn(loginRequest.getUsername(), loginRequest.getPassword());
+//
+//        return ResponseEntity.ok(new JWTAuthenticationResponse(token));
 
-        return ResponseEntity.ok(new JWTAuthenticationResponse(token));
+        return null;
     }
 
 }

@@ -21,6 +21,8 @@ public class User {
     @NotEmpty
     private String email;
 
+    private boolean active;
+
     public User() {
 
     }
@@ -29,6 +31,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.active = true;
     }
 
     public Long getId() {
@@ -61,5 +64,9 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

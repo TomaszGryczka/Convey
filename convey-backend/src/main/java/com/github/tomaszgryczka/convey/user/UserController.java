@@ -12,9 +12,4 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private UserService userService;
-
-//    @PostMapping("/users")
-//    public void signUp(@RequestBody User user) {
-//        userService.signUp(user);
-//    }
 }
