@@ -21,6 +21,7 @@ public class User {
     @NotEmpty
     private String email;
 
+    @Transient
     private boolean active;
 
     public User() {

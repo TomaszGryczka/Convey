@@ -22,6 +22,8 @@ public class RegistrationController {
     public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest registrationRequest) {
         User user = registrationRequest.toUser(passwordEncoder);
 
+        System.out.println(user.getPassword());
+
         userService.signUp(user);
 
         URI location = ServletUriComponentsBuilder
