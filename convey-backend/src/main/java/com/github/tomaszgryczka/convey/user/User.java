@@ -4,7 +4,7 @@ package com.github.tomaszgryczka.convey.user;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
-@Entity
+@Entity(name = "User")
 @Table(name = "user")
 public class User {
 
@@ -20,6 +20,8 @@ public class User {
 
     @NotEmpty
     private String email;
+
+    private String token;
 
     @Transient
     private boolean active;
@@ -69,5 +71,13 @@ public class User {
 
     public boolean isActive() {
         return active;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
