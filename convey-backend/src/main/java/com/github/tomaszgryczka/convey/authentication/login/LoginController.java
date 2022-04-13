@@ -1,5 +1,6 @@
 package com.github.tomaszgryczka.convey.authentication.login;
 
+import com.github.tomaszgryczka.convey.authentication.jwt.JwtAuthResponse;
 import com.github.tomaszgryczka.convey.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class LoginController {
 
         String token = userService.signIn(loginRequest.getUsername(), loginRequest.getPassword(), passwordEncoder);
 
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(new JwtAuthResponse(token));
     }
 
 }

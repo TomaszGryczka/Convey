@@ -1,21 +1,31 @@
 package com.github.tomaszgryczka.convey.user;
 
-import lombok.AllArgsConstructor;
+import com.github.tomaszgryczka.convey.authentication.jwt.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
-@AllArgsConstructor
 public class UserService {
 
-    @Autowired
     private UserRepository userRepository;
+
+    private JwtTokenUtil jwtTokenUtil;
+
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    public UserService(UserRepository userRepository, JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager) {
+        this.userRepository = userRepository;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.authenticationManager = authenticationManager;
+    }
 
     public void signUp(User user) {
         userRepository.save(user);
@@ -26,24 +36,13 @@ public class UserService {
         Optional<User> user = userRepository.login(username);
 
         if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
-            String token = UUID.randomUUID().toString();
-            
-            user.get().setToken(token);
-            userRepository.save(user.get());
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password));
 
-            return token;
-        }
-
-        return "";
-    }
-
-    public User findByUsername(String username) {
-        Optional<User> userFromDb = userRepository.findByUsername(username);
-
-        if (userFromDb.isPresent()) {
-            return userFromDb.get();
+            return jwtTokenUtil.generateToken(authentication);
         } else {
-            throw new UsernameNotFoundException("Username: " + username + " not found.");
+            System.out.println("error");
+            return "";
         }
     }
 }
