@@ -1,4 +1,4 @@
-package com.github.tomaszgryczka.convey.authentication.exception;
+package com.github.tomaszgryczka.convey.login.jwttoken.exception;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;

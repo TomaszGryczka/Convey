@@ -1,7 +1,7 @@
-package com.github.tomaszgryczka.convey.authentication;
+package com.github.tomaszgryczka.convey;
 
-import com.github.tomaszgryczka.convey.authentication.exception.FilterChainExceptionHandler;
-import com.github.tomaszgryczka.convey.authentication.jwt.JwtRequestFilter;
+import com.github.tomaszgryczka.convey.login.jwttoken.exception.FilterChainExceptionHandler;
+import com.github.tomaszgryczka.convey.login.jwttoken.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;

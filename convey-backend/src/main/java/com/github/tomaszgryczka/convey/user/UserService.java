@@ -1,11 +1,10 @@
 package com.github.tomaszgryczka.convey.user;
 
-import com.github.tomaszgryczka.convey.authentication.jwt.JwtTokenUtil;
+import com.github.tomaszgryczka.convey.login.jwttoken.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

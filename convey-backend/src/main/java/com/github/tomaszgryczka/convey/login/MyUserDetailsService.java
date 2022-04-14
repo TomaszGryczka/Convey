@@ -1,5 +1,7 @@
-package com.github.tomaszgryczka.convey.user;
+package com.github.tomaszgryczka.convey.login;
 
+import com.github.tomaszgryczka.convey.user.User;
+import com.github.tomaszgryczka.convey.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

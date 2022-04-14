@@ -1,4 +1,4 @@
-package com.github.tomaszgryczka.convey.authentication.login;
+package com.github.tomaszgryczka.convey.login;
 
 import lombok.Data;
 

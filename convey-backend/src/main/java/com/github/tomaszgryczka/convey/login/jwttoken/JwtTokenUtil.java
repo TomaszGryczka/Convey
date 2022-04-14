@@ -1,4 +1,4 @@
-package com.github.tomaszgryczka.convey.authentication.jwt;
+package com.github.tomaszgryczka.convey.login.jwttoken;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;

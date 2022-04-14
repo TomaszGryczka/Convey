@@ -1,6 +1,6 @@
-package com.github.tomaszgryczka.convey.authentication.jwt;
+package com.github.tomaszgryczka.convey.login.jwttoken;
 
-import com.github.tomaszgryczka.convey.user.MyUserDetailsService;
+import com.github.tomaszgryczka.convey.login.MyUserDetailsService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

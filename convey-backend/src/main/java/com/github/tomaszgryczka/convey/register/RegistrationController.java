@@ -1,4 +1,4 @@
-package com.github.tomaszgryczka.convey.authentication.register;
+package com.github.tomaszgryczka.convey.register;
 
 import com.github.tomaszgryczka.convey.user.User;
 import com.github.tomaszgryczka.convey.user.UserService;

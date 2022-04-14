@@ -1,6 +1,6 @@
-package com.github.tomaszgryczka.convey.authentication.login;
+package com.github.tomaszgryczka.convey.login;
 
-import com.github.tomaszgryczka.convey.authentication.jwt.JwtAuthResponse;
+import com.github.tomaszgryczka.convey.login.jwttoken.JwtAuthResponse;
 import com.github.tomaszgryczka.convey.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
