@@ -1,5 +1,6 @@
 package com.github.tomaszgryczka.convey.authentication;
 
+import com.github.tomaszgryczka.convey.authentication.exception.FilterChainExceptionHandler;
 import com.github.tomaszgryczka.convey.authentication.jwt.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,9 +18,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private OncePerRequestFilter jwtRequestFilter;
 
+    private FilterChainExceptionHandler filterChainExceptionHandler;
+
     @Autowired
-    public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
+    public SecurityConfig(OncePerRequestFilter jwtRequestFilter,
+                          FilterChainExceptionHandler filterChainExceptionHandler) {
         this.jwtRequestFilter = jwtRequestFilter;
+        this.filterChainExceptionHandler = filterChainExceptionHandler;
     }
 
     @Bean
@@ -37,8 +42,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/chat").authenticated()
+                .antMatchers("/session").permitAll()
+                .antMatchers("/users").permitAll()
                 .and()
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(filterChainExceptionHandler, JwtRequestFilter.class);
+
         http.cors().and().csrf().disable();
     }
 }

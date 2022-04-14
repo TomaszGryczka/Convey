@@ -11,7 +11,7 @@ import java.util.Date;
 @Slf4j
 @Component
 public class JwtTokenUtil {
-    
+
     private JwtConfig jwtConfig;
 
     @Autowired
@@ -27,15 +27,13 @@ public class JwtTokenUtil {
 
             return true;
         } catch (MalformedJwtException e) {
-            log.error("Invalid JWT Token mal");
+            log.error("Malformed JWT Token");
         } catch (SignatureException e) {
-            log.error("Invalid JWT Token signature");
-        } catch (ExpiredJwtException e) {
-            log.error("Expired JWT Token expired");
+            log.error("Invalid JWT Token Signature");
         } catch (IllegalArgumentException e) {
-            log.error("Invalid JWT Token illegal");
+            log.error("Invalid JWT Token");
         } catch (UnsupportedJwtException e) {
-            log.error("Invalid JWT Token unsuppoerted");
+            log.error("Unsupported JWT Exception");
         }
 
         return false;
@@ -56,7 +54,7 @@ public class JwtTokenUtil {
                 .setSubject(authentication.getName())
                 .claim("authorities", authentication.getAuthorities())
                 .setIssuedAt(new Date(now))
-                .setExpiration(new Date(now + jwtConfig.getExpiration() * 1000))
+                .setExpiration(new Date(now + jwtConfig.getExpiration()))
                 .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret().getBytes())
                 .compact();
     }

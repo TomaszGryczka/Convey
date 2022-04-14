@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtConfig {
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.secret:}")
     private String secret;
 
-    @Value("${jwt.header}")
+    @Value("${jwt.header:}")
     private String header;
 
-    @Value("${jwt.prefix}")
+    @Value("${jwt.prefix:}")
     private String prefix;
 
-    @Value("${jwt.expiration}")
+    @Value("${jwt.expiration:1800}")
     private int expiration;
 }
