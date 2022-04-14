@@ -20,23 +20,11 @@ public class JwtTokenUtil {
     }
 
     public boolean validateToken(String authToken) {
-        try {
-            Jwts.parser()
-                    .setSigningKey(jwtConfig.getSecret().getBytes())
-                    .parseClaimsJws(authToken);
+        Jwts.parser()
+                .setSigningKey(jwtConfig.getSecret().getBytes())
+                .parseClaimsJws(authToken);
 
-            return true;
-        } catch (MalformedJwtException e) {
-            log.error("Malformed JWT Token");
-        } catch (SignatureException e) {
-            log.error("Invalid JWT Token Signature");
-        } catch (IllegalArgumentException e) {
-            log.error("Invalid JWT Token");
-        } catch (UnsupportedJwtException e) {
-            log.error("Unsupported JWT Exception");
-        }
-
-        return false;
+        return true;
     }
 
     public Claims getClaims(String authToken) {
@@ -54,7 +42,7 @@ public class JwtTokenUtil {
                 .setSubject(authentication.getName())
                 .claim("authorities", authentication.getAuthorities())
                 .setIssuedAt(new Date(now))
-                .setExpiration(new Date(now + jwtConfig.getExpiration()))
+                .setExpiration(new Date(now + jwtConfig.getExpiration() * 1000))
                 .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret().getBytes())
                 .compact();
     }

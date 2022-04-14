@@ -15,10 +15,14 @@ import java.io.IOException;
 
 @Component
 public class FilterChainExceptionHandler extends OncePerRequestFilter {
+    
+    private HandlerExceptionResolver resolver;
 
     @Autowired
-    @Qualifier("handlerExceptionResolver")
-    private HandlerExceptionResolver resolver;
+    public FilterChainExceptionHandler(
+            @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
+        this.resolver = resolver;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

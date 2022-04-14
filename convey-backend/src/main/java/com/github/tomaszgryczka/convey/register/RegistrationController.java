@@ -15,7 +15,9 @@ import java.net.URI;
 @RestController
 @AllArgsConstructor
 public class RegistrationController {
+
     private UserService userService;
+    
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/users")
