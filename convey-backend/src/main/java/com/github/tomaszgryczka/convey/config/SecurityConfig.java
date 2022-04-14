@@ -1,4 +1,4 @@
-package com.github.tomaszgryczka.convey;
+package com.github.tomaszgryczka.convey.config;
 
 import com.github.tomaszgryczka.convey.login.jwttoken.exception.FilterChainExceptionHandler;
 import com.github.tomaszgryczka.convey.login.jwttoken.JwtRequestFilter;

@@ -1,6 +1,9 @@
 package com.github.tomaszgryczka.convey.login.jwttoken.exception;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -15,7 +18,7 @@ import java.io.IOException;
 
 @Component
 public class FilterChainExceptionHandler extends OncePerRequestFilter {
-    
+
     private HandlerExceptionResolver resolver;
 
     @Autowired
@@ -28,7 +31,8 @@ public class FilterChainExceptionHandler extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             filterChain.doFilter(request, response);
-        } catch (ExpiredJwtException e) {
+        } catch (ExpiredJwtException | MalformedJwtException
+                | SignatureException | IllegalArgumentException | UnsupportedJwtException e) {
             resolver.resolveException(request, response, null, e);
         }
     }

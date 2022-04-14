@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:8080")
 public class LoginController {
 
     private UserService userService;
-
-    @Autowired
+    
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/session")
@@ -28,5 +27,4 @@ public class LoginController {
 
         return ResponseEntity.ok(new JwtAuthResponse(token));
     }
-
 }
