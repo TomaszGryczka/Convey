@@ -1,10 +1,30 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
+import ScrollToBottom from "react-scroll-to-bottom";
 
 function Chat() {
   return (
-      <h1>
-          Convey - chat application!
-      </h1>
+      <div id='frame'>
+          <div id='sidepannel'>
+              <div id='contacts'>
+
+              </div>
+              <div id='bottom-bar'>
+
+              </div>
+          </div>
+          <div id='content'>
+            <ScrollToBottom className='messages'>
+              <ul>
+                
+              </ul>
+            </ScrollToBottom>
+            <div id='message-input'>
+              
+              <Button>SendMessage</Button>
+            </div>
+          </div>
+      </div>
   );
 }
 
