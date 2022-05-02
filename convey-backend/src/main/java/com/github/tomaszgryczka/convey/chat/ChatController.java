@@ -16,7 +16,10 @@ public class ChatController {
     private void processMessage(@Payload ChatMessage chatMessage) {
         String chatId = chatRoomService.getChatId(
                 chatMessage.getSenderId(),
-                chatMessage.getRecipentId(),
-                true);
+                chatMessage.getRecipientId());
+
+        chatMessage.setChatId(chatId);
+
+        
     }
 }
