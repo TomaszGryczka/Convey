@@ -1,5 +1,7 @@
 package com.github.tomaszgryczka.convey.chat.message;
 
-public class ChatMessageRepository {
-    
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ChatMessageRepository extends JpaRepository<ChatMessage, String> {
+
 }
