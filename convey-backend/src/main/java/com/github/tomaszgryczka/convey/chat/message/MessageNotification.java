@@ -1,5 +1,7 @@
 package com.github.tomaszgryczka.convey.chat.message;
 
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+
 public class MessageNotification {
 
     private String id;
@@ -7,4 +9,10 @@ public class MessageNotification {
     private String senderId;
 
     private String senderName;
+
+    public MessageNotification(String id, String senderId, String senderName) {
+        this.id = id;
+        this.senderId = senderId;
+        this.senderName = senderName;
+    }
 }

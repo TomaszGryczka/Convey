@@ -1,7 +1,6 @@
 package com.github.tomaszgryczka.convey.chat;
 
 import com.github.tomaszgryczka.convey.chat.message.ChatMessage;
-import com.github.tomaszgryczka.convey.chat.message.ChatMessageRepository;
 import com.github.tomaszgryczka.convey.chat.message.ChatMessageService;
 import com.github.tomaszgryczka.convey.chat.message.MessageNotification;
 import com.github.tomaszgryczka.convey.chat.room.ChatRoomService;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class ChatController {
 
+    @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
@@ -38,12 +38,15 @@ public class ChatController {
         simpMessagingTemplate.convertAndSendToUser(
                 chatMessage.getRecipientId(),
                 "queue/messages",
-                new MessageNotification()); //it should be fixed
-
+                new MessageNotification(
+                        chatMessage.getChatId(),
+                        chatMessage.getSenderId(),
+                        chatMessage.getRecipientId()
+                ));
 
     }
 
-    @GetMapping("/messages/{senderId}/{recipiendId}")
+    @GetMapping("/messages/{senderId}/{recipientId}")
     public ResponseEntity<?> findChatMessages(
             @PathVariable String senderId,
             @PathVariable String recipientId) {

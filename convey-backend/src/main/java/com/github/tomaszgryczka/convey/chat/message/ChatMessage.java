@@ -23,7 +23,7 @@ public class ChatMessage {
 
     private String senderName;
 
-    private String recipendName;
+    private String recipientName;
 
     private String content;
 
@@ -69,12 +69,12 @@ public class ChatMessage {
         this.senderName = senderName;
     }
 
-    public String getRecipendName() {
-        return recipendName;
+    public String getRecipientName() {
+        return recipientName;
     }
 
-    public void setRecipendName(String recipendName) {
-        this.recipendName = recipendName;
+    public void setRecipientName(String recipendName) {
+        this.recipientName = recipendName;
     }
 
     public String getContent() {

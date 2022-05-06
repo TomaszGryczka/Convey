@@ -1,10 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import ScrollToBottom from "react-scroll-to-bottom";
 
 import "./Chat.css";
 
-function Chat() {
+let stompClient = null;
+
+const Chat = (props) =>  {
+
+  useEffect(() => {
+    if(false) {
+
+    }
+
+    connect();
+
+  });
+
+  const connect = () => {
+    const Stomp = require("stompjs");
+    var SockJS = require("sockjs-client");
+    SockJS = new SockJS("http://localhost:8080/ws");
+    stompClient = Stomp.over(SockJS);
+    stompClient.connect({}, onConnected, onError);
+  };
+
+  const onConnected = () => {
+    console.log("Connected!");
+  };
+
+  const onError = (err) => {
+    console.log("Error connecting!");
+  };
+
+
   return (
       <div id='frame'>
           <div id='sidepannel'>
@@ -21,7 +50,7 @@ function Chat() {
               </ul>
             </ScrollToBottom>
             <div id='message-input'>
-              <div class='wrap'>
+              <div className='wrap'>
               <input
                 name="user_input"
                 size="large"

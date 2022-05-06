@@ -3,8 +3,17 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 import "./Registration.css";
+import "../../Util/Util";
+import { signUp } from "../../Util/Util";
+import "./RegistrationAlert";
+import RegistrationAlert from "./RegistrationAlert";
 
 class Registration extends Component {
+
+  constructor(props) {
+    super(props);
+    this.registrationAlert = React.createRef();
+  }
 
     handleSubmit = event => {
         event.preventDefault();
@@ -12,23 +21,29 @@ class Registration extends Component {
     }
 
     registerUser(username, password, email) {
-        fetch('http://localhost:8080/users', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: username.value,
-                password: password.value,
-                email: email.value,
-            })
-        }).then(function(response) {
-            if(response.status === 201) {
-                console.log("User registered");
-            } else {
-                console.log("User not registered");
-            }
-        })
+        signUp({
+            username: username.value,
+            password: password.value,
+            email: email.value,
+        }).then((response) => {
+          console.log(response);
+          if(response.status === 409) {
+            this.showRegistrationAlert("danger", "User already exists!", "Please choose different name.");
+          } else if (response.status === 201) {
+            this.showRegistrationAlert("success", "User registered!", "You can now log in with your credentials.");
+          } else {
+            this.showRegistrationAlert("danger", "Something went wrong.", "Please try again later");
+          }
+        }).catch((error) => {
+          this.showRegistrationAlert("danger", "Something went wrong.", "Please try again later - error");
+        });
+    }
+
+    showRegistrationAlert(variant, heading, message) {
+      this.registrationAlert.current.setVariant(variant);
+      this.registrationAlert.current.setHeading(heading);
+      this.registrationAlert.current.setMessage(message);
+      this.registrationAlert.current.setVisible(true);
     }
 
     render() {
@@ -72,6 +87,8 @@ class Registration extends Component {
                   </Button>
                 </div>
               </Form>
+
+              <RegistrationAlert ref={this.registrationAlert}/>
             </div>
           );
     }

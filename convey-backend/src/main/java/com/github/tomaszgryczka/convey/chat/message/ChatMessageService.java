@@ -2,11 +2,11 @@ package com.github.tomaszgryczka.convey.chat.message;
 
 import com.github.tomaszgryczka.convey.chat.room.ChatRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ChatMessageService {
 
     @Autowired
@@ -23,8 +23,8 @@ public class ChatMessageService {
 
         String chatId = chatRoomService.getChatId(senderId, recipientId);
 
-        // List<ChatMessage> messages = //TODO
+        List<ChatMessage> messages = chatMessageRepository.findAllById(chatId);
 
-        return null;
+        return messages;
     }
 }

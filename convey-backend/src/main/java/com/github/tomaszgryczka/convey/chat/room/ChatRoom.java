@@ -3,13 +3,15 @@ package com.github.tomaszgryczka.convey.chat.room;
 import lombok.Builder;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table
-@Entity
+@Table(name = "chatroom")
+@Entity(name = "Chatroom")
 @Builder
 public class ChatRoom {
 
+    @Id
     private String id;
 
     private String chatId;
