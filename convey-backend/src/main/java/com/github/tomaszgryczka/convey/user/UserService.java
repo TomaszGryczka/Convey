@@ -4,6 +4,7 @@ import com.github.tomaszgryczka.convey.login.jwttoken.JwtTokenUtil;
 import com.github.tomaszgryczka.convey.register.exception.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,8 +49,7 @@ public class UserService {
 
             return jwtTokenUtil.generateToken(authentication);
         } else {
-            System.out.println("error");
-            return "";
+            throw new BadCredentialsException("Invalid username or password!");
         }
     }
 }

@@ -29,3 +29,11 @@ export function signUp(signUpRequest) {
         body: JSON.stringify(signUpRequest)
     });
 }
+
+export function signIn(signInRequest) {
+    return request({
+        url: API_SERVICE + "/session",
+        method: "POST",
+        body: JSON.stringify(signInRequest)
+    });
+}
