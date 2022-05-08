@@ -28,18 +28,17 @@ class Registration extends Component {
         username: username.value,
         password: password.value,
         email: email.value,
-    }).then((response) => {
-      if(response.status === 409) {
-        this.showRegistrationAlert("danger", "User already exists!", "Please choose different name.");
-      } else if (response.status === 201) {
+    }).then(() => {
         this.showRegistrationAlert("success", "User registered!", "You can now log in with your credentials.");
         navigate.navigate("/login");
         window.location.reload();
+    }).catch((error) => {
+      console.log(error)
+      if(error.status === 409) {
+        this.showRegistrationAlert("danger", "User already exists!", "Please choose different name.");
       } else {
         this.showRegistrationAlert("danger", "User not registered!", "Please try again later.");
       }
-    }).catch((error) => {
-      this.showRegistrationAlert("danger", "Error!", "Something went wrong.");
     });
   }
 

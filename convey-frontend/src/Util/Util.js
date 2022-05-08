@@ -19,7 +19,26 @@ const request = (options) => {
     
     options = Object.assign({}, defaults, options);
 
-    return fetch(options.url, options);
+    return fetch(options.url, options).then((response) => response.json()
+        .then((json) => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+
+            return json;
+        })
+  );
+}
+
+export function isJWTValidated() {
+    request({
+            url: API_SERVICE + "/protected",
+            method: "POST"
+        }).then((response => {
+            return true;
+        })).catch((error) => {
+            return false;
+        });
 }
 
 export function signUp(signUpRequest) {

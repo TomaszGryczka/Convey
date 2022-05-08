@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import ScrollToBottom from "react-scroll-to-bottom";
 
 import "./Chat.css";
@@ -9,12 +10,7 @@ let stompClient = null;
 const Chat = (props) =>  {
 
   useEffect(() => {
-    if(false) {
-
-    }
-
     connect();
-
   });
 
   const connect = () => {

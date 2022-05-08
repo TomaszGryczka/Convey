@@ -8,6 +8,7 @@ import RegistrationAlert from "../Registration/RegistrationAlert";
 import "./Login.css";
 
 import { signIn } from "../../Util/Util";
+import { wait } from "@testing-library/user-event/dist/utils";
 
 class Login extends Component {
   constructor(props) {
@@ -16,8 +17,8 @@ class Login extends Component {
   }
 
   handleSubmit = event => {
-    localStorage.clear();
     event.preventDefault();
+    localStorage.clear();
     this.loginUser(event.target.username, event.target.password);
   }
 
@@ -29,21 +30,17 @@ class Login extends Component {
         username: username.value,
         password: password.value,
     }).then((response) => {
-      if(response.status === 200) {
-        response.json().then((response) => {
-          console.log(response);
-          console.log(response.token);
           this.showRegistrationAlert("success", "User logged in!", "");
           localStorage.setItem("accessToken", response.token);
           navigate.navigate("/chat");
           window.location.reload();
-        });
-      } else if(response.status === 401) {
-        this.showRegistrationAlert("danger", "Error!", "Incorrect username or password!");
-      }
-    }).catch((error) => {
-        this.showRegistrationAlert("danger", "Error!", "Something went wrong.");
-    });
+        }).catch((error) => {
+          if(error.status === 401) {
+            this.showRegistrationAlert("danger", "Error!", "Incorrect username or password!");
+          } else {
+            this.showRegistrationAlert("danger", "Error!", "Something went wrong.");
+          }
+      });
   }
 
   showRegistrationAlert(variant, heading, message) {
