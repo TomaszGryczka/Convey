@@ -1,6 +1,5 @@
 package com.github.tomaszgryczka.convey.chat.room;
 
-import com.github.tomaszgryczka.convey.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

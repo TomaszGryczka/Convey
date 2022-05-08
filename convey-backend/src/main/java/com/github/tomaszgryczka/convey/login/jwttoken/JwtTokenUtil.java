@@ -1,8 +1,10 @@
 package com.github.tomaszgryczka.convey.login.jwttoken;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -10,14 +12,10 @@ import java.util.Date;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class JwtTokenUtil {
 
-    private JwtConfig jwtConfig;
-
-    @Autowired
-    public JwtTokenUtil(JwtConfig jwtConfig) {
-        this.jwtConfig = jwtConfig;
-    }
+    private final JwtConfig jwtConfig;
 
     public boolean validateToken(String authToken) {
         Jwts.parser()

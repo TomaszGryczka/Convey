@@ -33,7 +33,6 @@ class Registration extends Component {
         navigate.navigate("/login");
         window.location.reload();
     }).catch((error) => {
-      console.log(error)
       if(error.status === 409) {
         this.showRegistrationAlert("danger", "User already exists!", "Please choose different name.");
       } else {

@@ -2,7 +2,7 @@ package com.github.tomaszgryczka.convey.login.jwttoken;
 
 import com.github.tomaszgryczka.convey.login.MyUserDetailsService;
 import io.jsonwebtoken.Claims;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final JwtConfig jwtConfig;
@@ -25,18 +26,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final MyUserDetailsService myUserDetailsService;
 
-    @Autowired
-    public JwtRequestFilter(JwtConfig jwtConfig, JwtTokenUtil jwtTokenUtil, MyUserDetailsService myUserDetailsService) {
-        this.jwtConfig = jwtConfig;
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.myUserDetailsService = myUserDetailsService;
-    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
-        System.out.println(request.getHeaderNames());
 
         final String authHeader = request.getHeader(jwtConfig.getHeader());
 

@@ -1,19 +1,18 @@
 package com.github.tomaszgryczka.convey.chat.message;
 
 import com.github.tomaszgryczka.convey.chat.room.ChatRoomService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ChatMessageService {
 
-    @Autowired
-    private ChatMessageRepository chatMessageRepository;
+    private final ChatMessageRepository chatMessageRepository;
 
-    @Autowired
-    private ChatRoomService chatRoomService;
+    private final ChatRoomService chatRoomService;
 
     public void save(ChatMessage chatMessage) {
         chatMessageRepository.save(chatMessage);

@@ -4,7 +4,7 @@ import com.github.tomaszgryczka.convey.chat.message.ChatMessage;
 import com.github.tomaszgryczka.convey.chat.message.ChatMessageService;
 import com.github.tomaszgryczka.convey.chat.message.MessageNotification;
 import com.github.tomaszgryczka.convey.chat.room.ChatRoomService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -14,16 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
+@RequiredArgsConstructor
 public class ChatController {
 
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
-    @Autowired
-    private ChatRoomService chatRoomService;
+    private final ChatRoomService chatRoomService;
 
-    @Autowired
-    private ChatMessageService chatMessageService;
+    private final ChatMessageService chatMessageService;
 
     @MessageMapping("/chat")
     private void processMessage(@Payload ChatMessage chatMessage) {

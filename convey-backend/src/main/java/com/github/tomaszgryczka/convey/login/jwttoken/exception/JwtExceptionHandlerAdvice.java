@@ -1,15 +1,14 @@
 package com.github.tomaszgryczka.convey.login.jwttoken.exception;
 
+import com.github.tomaszgryczka.convey.response.AuthResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @ControllerAdvice
 public class JwtExceptionHandlerAdvice {
@@ -18,42 +17,34 @@ public class JwtExceptionHandlerAdvice {
     public ResponseEntity<?> handleExpiredToken(ExpiredJwtException e) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body("Expired JSON Web Token");
+                .body(new AuthResponse("Expired JSON Web Token"));
     }
 
     @ExceptionHandler(value = MalformedJwtException.class)
     public ResponseEntity<?> handleMalformedToken(MalformedJwtException e) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body("Malformed JSON Web Token");
+                .body(new AuthResponse("Malformed JSON Web Token"));
     }
 
     @ExceptionHandler(value = SignatureException.class)
     public ResponseEntity<?> handleSignatureException(SignatureException e) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body("Invalid JWT Token Signature");
+                .body(new AuthResponse("Invalid JWT Token Signature"));
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
     public ResponseEntity<?> handleInvalidToken(IllegalArgumentException e) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body("Invalid JWT Token");
+                .body(new AuthResponse("Invalid JWT Token"));
     }
 
     @ExceptionHandler(value = UnsupportedJwtException.class)
     public ResponseEntity<?> handleUnsupportedException(UnsupportedJwtException e) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body("Unsupported JWT Exception");
-    }
-
-    // should be moved to new class in login package
-    @ExceptionHandler(value = BadCredentialsException.class)
-    public ResponseEntity<?> handleBadCredentials(BadCredentialsException e) {
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body(new ExceptionResponse("Invalid username or password!"));
+                .body(new AuthResponse("Unsupported JWT Exception"));
     }
 }

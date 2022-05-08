@@ -1,7 +1,7 @@
 package com.github.tomaszgryczka.convey.user;
 
 import com.github.tomaszgryczka.convey.login.jwttoken.JwtTokenUtil;
-import com.github.tomaszgryczka.convey.register.exception.UserAlreadyExistException;
+import com.github.tomaszgryczka.convey.register.exception.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -33,7 +33,7 @@ public class UserService {
         Optional<User> userFromDb = userRepository.findByUsername(user.getUsername());
 
         if (userFromDb.isPresent()) {
-            throw new UserAlreadyExistException(user.getUsername() + " already exists");
+            throw new UserAlreadyExistsException(user.getUsername() + " already exists");
         }
 
         userRepository.save(user);

@@ -1,5 +1,6 @@
 package com.github.tomaszgryczka.convey.user;
 
+import com.github.tomaszgryczka.convey.response.AuthResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

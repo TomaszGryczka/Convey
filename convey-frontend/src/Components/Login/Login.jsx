@@ -8,7 +8,6 @@ import RegistrationAlert from "../Registration/RegistrationAlert";
 import "./Login.css";
 
 import { signIn } from "../../Util/Util";
-import { wait } from "@testing-library/user-event/dist/utils";
 
 class Login extends Component {
   constructor(props) {

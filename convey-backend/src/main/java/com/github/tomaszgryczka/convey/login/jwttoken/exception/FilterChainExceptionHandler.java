@@ -19,7 +19,7 @@ import java.io.IOException;
 @Component
 public class FilterChainExceptionHandler extends OncePerRequestFilter {
 
-    private HandlerExceptionResolver resolver;
+    private final HandlerExceptionResolver resolver;
 
     @Autowired
     public FilterChainExceptionHandler(
@@ -32,7 +32,7 @@ public class FilterChainExceptionHandler extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException | MalformedJwtException
-                | SignatureException | IllegalArgumentException | UnsupportedJwtException e) {
+                 | SignatureException | IllegalArgumentException | UnsupportedJwtException e) {
             resolver.resolveException(request, response, null, e);
         }
     }

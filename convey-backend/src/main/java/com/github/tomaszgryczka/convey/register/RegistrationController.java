@@ -1,11 +1,11 @@
 package com.github.tomaszgryczka.convey.register;
 
+import com.github.tomaszgryczka.convey.response.AuthResponse;
 import com.github.tomaszgryczka.convey.user.User;
 import com.github.tomaszgryczka.convey.user.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,13 +14,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class RegistrationController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/users")
     public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest registrationRequest) {
@@ -34,6 +33,6 @@ public class RegistrationController {
                 .buildAndExpand(user.getUsername())
                 .toUri();
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(new AuthResponse("User registered!"));
     }
 }

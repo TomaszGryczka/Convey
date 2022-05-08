@@ -1,4 +1,4 @@
-package com.github.tomaszgryczka.convey.user;
+package com.github.tomaszgryczka.convey.response;
 
 import lombok.Getter;
 

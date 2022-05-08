@@ -1,7 +1,5 @@
 package com.github.tomaszgryczka.convey.chat.message;
 
-import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-
 public class MessageNotification {
 
     private String id;
