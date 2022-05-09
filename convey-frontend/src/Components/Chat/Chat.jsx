@@ -1,13 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import ScrollToBottom from "react-scroll-to-bottom";
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { chatActiveContact, loggedInUser } from '../../Atom/State';
+import { countNewMessages, getUsers } from '../../Util/Util';
 
 import "./Chat.css";
 
 let stompClient = null;
 
 const Chat = (props) =>  {
+
+  const currentUser = useRecoilValue(loggedInUser);
+
+  const [contacts, setContacts] = useState([]);
+
+  const [activeContact, setActiveContact] = useRecoilState(chatActiveContact);
+
+
 
   useEffect(() => {
     connect();
@@ -28,6 +38,27 @@ const Chat = (props) =>  {
   const onError = (err) => {
     console.log("Error connecting!");
   };
+
+  const loadContacts = () => {
+    const promise = getUsers().then((users) => {
+      users.map((user) => {
+        countNewMessages(user.id, currentUser.id)
+        .then((numOfMessages) => {
+          user.newMessages = numOfMessages;
+          return user;
+        })
+      })
+    });
+
+    promise.then((promises) => {
+      Promise.all(promises).then((users) => {
+        setContacts(users);
+        if(activeContact === undefined && users.length > 0) {
+          setActiveContact(users[0]);
+        }
+      })
+    })
+  }
 
 
   return (
@@ -52,10 +83,8 @@ const Chat = (props) =>  {
                 size="large"
                 placeholder="Write your message..."
               />
-              
                 <Button className="bi bi-send-fill">
                     
-
                 </Button>
               </div>
 

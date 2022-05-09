@@ -56,3 +56,23 @@ export function signIn(signInRequest) {
         body: JSON.stringify(signInRequest)
     });
 }
+
+export function getCurrentUser() {
+    return request({
+        url: API_SERVICE + "/user/me",
+        method: "GET"
+    });
+}
+
+export function getUsers() {
+    return request({
+        url: API_SERVICE + "/users/contact",
+        method: "GET"
+    })
+}
+
+export function countNewMessages(senderId, recipientId) {
+    return request({
+        // todo
+    })
+}
