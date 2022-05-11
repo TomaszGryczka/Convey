@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { loggedInUser } from '../../Atom/State'
 import { getCurrentUser } from '../../Util/Util';
 import { Card } from 'react-bootstrap';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 
-const Profile = () => {
+const Profile = (props) => {
 
     const navigate = useNavigate();
 
-    const [currentUser, setLoggedInUser] = userRecoilState(loggedInUser);
+    const [currentUser, setloggedInUser] = useRecoilState(loggedInUser);
 
     useEffect(() => {
         loadCurrentUser();
@@ -16,11 +17,14 @@ const Profile = () => {
 
     const loadCurrentUser = () => {
         getCurrentUser().then((response) => {
-            setIsUserLoggedIn(response);
-        }).catch((error) => {
-            console.log(error);
+            setloggedInUser(response);
+            console.log(" ZALADOWANO USERA!");
+        }).catch((error) => { 
+          console.log("NIE ZALADOWANO USERA!");
+            //navigate("/login");
         });
     }
+    
 
     const logout = () => {
         localStorage.removeItem("accessToken");

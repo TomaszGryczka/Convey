@@ -38,11 +38,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/user/contacts").authenticated()
+                .antMatchers("/user/me").authenticated()
+                .antMatchers("/protected").authenticated()
+                .antMatchers("/messages/**").authenticated()
                 .antMatchers("/ws/**").permitAll()
                 .antMatchers("/chat").authenticated()
                 .antMatchers("/session").permitAll()
                 .antMatchers("/users").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().denyAll()
                 .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(filterChainExceptionHandler, JwtRequestFilter.class);

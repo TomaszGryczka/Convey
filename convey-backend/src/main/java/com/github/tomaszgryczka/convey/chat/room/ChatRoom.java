@@ -1,18 +1,18 @@
 package com.github.tomaszgryczka.convey.chat.room;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Table(name = "chatroom")
-@Entity(name = "Chatroom")
+@Table
+@Entity
 @Builder
 public class ChatRoom {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String chatId;
 
@@ -20,12 +20,8 @@ public class ChatRoom {
 
     private String recipientId;
 
-    public String getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getChatId() {

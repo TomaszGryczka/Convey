@@ -26,4 +26,8 @@ public class ChatMessageService {
 
         return messages;
     }
+
+    public Long countNewMessages(String senderId, String recipientId) {
+        return chatMessageRepository.countBySenderIdAndRecipientId(senderId, recipientId);
+    }
 }

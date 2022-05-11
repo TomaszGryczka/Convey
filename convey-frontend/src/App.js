@@ -4,10 +4,11 @@ import Chat from './Components/Chat/Chat.jsx';
 import Login from "./Components/Login/Login.jsx";
 import Registration from './Components/Registration/Registration.jsx';
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
+import { RecoilRoot } from 'recoil';
 
-function App() {
+const App = (props) => {
   return (
-    <>
+    <RecoilRoot>
       <Router>
           <Routes>
               <Route element={<ProtectedRoute/>}>
@@ -16,9 +17,12 @@ function App() {
               <Route exact path='/login' element={<Login/>}/>
               <Route exact path='/register' element={<Registration/>}/>
               <Route exact path="/*" element={<Navigate to="/login"/>}/>
+              <Route element={<ProtectedRoute/>}>
+                <Route exact path="/user" element={<Chat authed={true}/>} />
+              </Route>
           </Routes>
       </Router>
-    </>  
+    </RecoilRoot>  
   );
 }
 

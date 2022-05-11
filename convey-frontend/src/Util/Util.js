@@ -66,13 +66,21 @@ export function getCurrentUser() {
 
 export function getUsers() {
     return request({
-        url: API_SERVICE + "/users/contact",
+        url: API_SERVICE + "/user/contacts",
         method: "GET"
     })
 }
 
 export function countNewMessages(senderId, recipientId) {
     return request({
-        // todo
+        url: API_SERVICE + "/messages/" + senderId + "/" + recipientId + "/count",
+        method: "GET"
+    })
+}
+
+export function findChatMessages(senderId, recipientId) {
+    return request({
+        url: API_SERVICE + "/messages/" + senderId + "/" + recipientId,
+        method: "GET"
     })
 }

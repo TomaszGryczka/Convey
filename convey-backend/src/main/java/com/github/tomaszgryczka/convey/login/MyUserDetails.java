@@ -10,7 +10,7 @@ import java.util.HashSet;
 public class MyUserDetails extends User implements UserDetails {
 
     public MyUserDetails(User user) {
-        super(user.getUsername(), user.getPassword(), user.getEmail());
+        super(user.getId(), user.getUsername(), user.getPassword(), user.getEmail());
     }
 
     @Override

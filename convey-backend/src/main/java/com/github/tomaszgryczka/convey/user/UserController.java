@@ -26,6 +26,7 @@ public class UserController {
 
     @GetMapping("/user/me")
     public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal MyUserDetails userDetails) {
+
         return ResponseEntity.ok(
                 UserResponse
                         .builder()
@@ -36,6 +37,7 @@ public class UserController {
 
     @GetMapping("/user/contacts")
     public ResponseEntity<?> getUsers(@AuthenticationPrincipal MyUserDetails userDetails) {
+
         return ResponseEntity.ok(
                 userService
                         .findAll()
