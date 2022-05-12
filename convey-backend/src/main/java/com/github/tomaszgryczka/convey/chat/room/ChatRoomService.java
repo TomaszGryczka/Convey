@@ -15,7 +15,10 @@ public class ChatRoomService {
 
         Optional<ChatRoom> chatRoom = chatRoomRepository.findBySenderIdAndRecipientId(senderId, recipientId);
 
+        System.out.println(chatRoom.isPresent());
+
         if (chatRoom.isPresent()) {
+            System.out.println(chatRoom.get().getChatId());
             return chatRoom.get().getChatId();
         } else {
             String chatId = String.format("%s_%s", senderId, recipientId);
@@ -27,12 +30,15 @@ public class ChatRoomService {
                     .recipientId(recipientId)
                     .build();
 
+
             ChatRoom recipientSender = ChatRoom
                     .builder()
                     .chatId(chatId)
                     .senderId(recipientId)
                     .recipientId(senderId)
                     .build();
+
+            System.out.println(chatId);
 
             chatRoomRepository.save(senderRecipient);
             chatRoomRepository.save(recipientSender);

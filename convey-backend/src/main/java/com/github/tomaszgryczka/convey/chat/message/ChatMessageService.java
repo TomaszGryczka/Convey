@@ -22,12 +22,23 @@ public class ChatMessageService {
 
         String chatId = chatRoomService.getChatId(senderId, recipientId);
 
-        List<ChatMessage> messages = chatMessageRepository.findAllById(chatId);
+        List<ChatMessage> messages = chatMessageRepository.findAllByChatId(chatId);
 
         return messages;
     }
 
     public Long countNewMessages(String senderId, String recipientId) {
         return chatMessageRepository.countBySenderIdAndRecipientId(senderId, recipientId);
+    }
+
+    public ChatMessage findById(Long id) {
+        return chatMessageRepository
+                .findById(id)
+                .map(chatMessage -> {
+                    chatMessage.setMessageStatus(MessageStatus.DELIVERED);
+                    return chatMessageRepository.save(chatMessage);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Message " + id + " not found."));
+
     }
 }

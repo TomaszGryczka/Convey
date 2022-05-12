@@ -1,8 +1,6 @@
 package com.github.tomaszgryczka.convey.chat.message;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -10,7 +8,8 @@ import java.util.Date;
 public class ChatMessage {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String chatId;
 
@@ -26,12 +25,18 @@ public class ChatMessage {
 
     private Date timestamp;
 
-    public String getId() {
-        return id;
+    public MessageStatus getMessageStatus() {
+        return messageStatus;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setMessageStatus(MessageStatus messageStatus) {
+        this.messageStatus = messageStatus;
+    }
+
+    private MessageStatus messageStatus;
+
+    public Long getId() {
+        return id;
     }
 
     public String getChatId() {

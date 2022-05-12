@@ -9,6 +9,7 @@ import {
 } from "../../Atom/State";
 import {
   countNewMessages,
+  findChatMessage,
   findChatMessages,
   getCurrentUser,
   getUsers,
@@ -66,11 +67,12 @@ const Chat = (props) => {
       const message = {
         senderId: currentUser.id,
         recipientId: activeContact.id,
-        senderName: currentUser.name,
-        recipientName: activeContact.name,
+        senderName: currentUser.username,
+        recipientName: activeContact.username,
         content: msg,
         timestamp: new Date(),
       };
+
       stompClient.send("/app/chat", {}, JSON.stringify(message));
 
       const newMessages = [...messages];
@@ -95,7 +97,19 @@ const Chat = (props) => {
   };
 
   const onMessageReceived = (msg) => {
-    console.log(msg);
+    const notification = JSON.parse(msg.body);
+    const active = JSON.parse(sessionStorage.getItem("recoil-persist"));
+
+    if (activeContact.id === notification.senderId) {
+      findChatMessage(notification.id).then((message) => {
+        const newMessages = [...messages];
+        newMessages.push(message);
+        setMessages(newMessages);
+      });
+    } else {
+      message.info("Received new message from " + notification.senderName);
+    }
+    loadContacts();
   };
 
   const onError = (err) => {
@@ -105,10 +119,10 @@ const Chat = (props) => {
   const loadContacts = () => {
     const promise = getUsers().then((users) => {
       users.map((user) => {
-        countNewMessages(user.id, currentUser.id).then((numOfMessages) => {
-          user.newMessages = numOfMessages;
-          return user;
-        });
+        return countNewMessages(user.id, currentUser.id).then((numOfMessages) => ({
+            ...user,
+            newMessages: numOfMessages
+        }));
       });
       return users;
     });
@@ -116,8 +130,11 @@ const Chat = (props) => {
     promise.then((promises) => {
       Promise.all(promises).then((users) => {
         setContacts(users);
-        if (activeContact === undefined && users.length > 0) {
+        if (activeContact.id === undefined && users.length > 0) {
           setActiveContact(users[0]);
+          findChatMessages(users[0].id, currentUser.id).then((messages) => {
+            setMessages(messages);
+          });
         }
       });
     });
@@ -160,7 +177,9 @@ const Chat = (props) => {
               return (
                 <li
                   key={contact.username}
-                  onClick={() => setActiveContact(contact)}
+                  onClick={() => {
+                    setActiveContact(contact);
+                  }}
                   className={
                     activeContact && contact.id === activeContact.id
                       ? "contact active"
@@ -174,7 +193,7 @@ const Chat = (props) => {
                       <p className="name">{contact.username}</p>
                       {contact.newMessages !== undefined &&
                         contact.newMessages > 0 && (
-                          <p class="preview">
+                          <p className="preview">
                             {contact.newMessages} new messages
                           </p>
                         )}
@@ -204,8 +223,10 @@ const Chat = (props) => {
         <ScrollToBottom className="messages">
           <ul>
             {messages.map((msg) => {
+              console.log(msg.id);
               return (
                 <li
+                key={msg.id}
                   className={
                     msg.senderId === currentUser.id ? "sent" : "replies"
                   }

@@ -25,7 +25,7 @@ public class ChatController {
     private final ChatMessageService chatMessageService;
 
     @MessageMapping("/chat")
-    private void processMessage(@Payload ChatMessage chatMessage) {
+    private void processMessage(ChatMessage chatMessage) {
         String chatId = chatRoomService.getChatId(
                 chatMessage.getSenderId(),
                 chatMessage.getRecipientId());
@@ -38,9 +38,9 @@ public class ChatController {
                 chatMessage.getRecipientId(),
                 "queue/messages",
                 new MessageNotification(
-                        chatMessage.getChatId(),
+                        chatMessage.getId(),
                         chatMessage.getSenderId(),
-                        chatMessage.getRecipientId()
+                        chatMessage.getRecipientName()
                 ));
 
     }
@@ -51,6 +51,12 @@ public class ChatController {
             @PathVariable String recipientId) {
 
         return ResponseEntity.ok(chatMessageService.findChatMessages(senderId, recipientId));
+    }
+
+    @GetMapping("/messages/{id}")
+    public ResponseEntity<?> findChatMessage(@PathVariable Long id) {
+        System.out.println(id);
+        return ResponseEntity.ok(chatMessageService.findById(id));
     }
 
 

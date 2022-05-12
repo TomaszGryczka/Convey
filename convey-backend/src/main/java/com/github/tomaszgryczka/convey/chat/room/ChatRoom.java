@@ -20,6 +20,17 @@ public class ChatRoom {
 
     private String recipientId;
 
+    public ChatRoom() {
+
+    }
+
+    public ChatRoom(Long id, String chatId, String senderId, String recipientId) {
+        this.id = id;
+        this.chatId = chatId;
+        this.senderId = senderId;
+        this.recipientId = recipientId;
+    }
+
     public Long getId() {
         return id;
     }

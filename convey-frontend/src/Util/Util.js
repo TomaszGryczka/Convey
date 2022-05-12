@@ -84,3 +84,10 @@ export function findChatMessages(senderId, recipientId) {
         method: "GET"
     })
 }
+
+export function findChatMessage(id) {
+    return request({
+        url: API_SERVICE + "/messages/" + id,
+        method: "GET"
+    })
+}

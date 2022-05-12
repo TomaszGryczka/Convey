@@ -1,16 +1,19 @@
 package com.github.tomaszgryczka.convey.chat.message;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class MessageNotification {
 
-    private String id;
+    private Long id;
 
     private String senderId;
 
     private String senderName;
-
-    public MessageNotification(String id, String senderId, String senderName) {
-        this.id = id;
-        this.senderId = senderId;
-        this.senderName = senderName;
-    }
 }

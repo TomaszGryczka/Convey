@@ -5,6 +5,12 @@ import Login from "./Components/Login/Login.jsx";
 import Registration from './Components/Registration/Registration.jsx';
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
 import { RecoilRoot } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist({
+  key: "recoil-persist",
+  storage: sessionStorage,
+});
 
 const App = (props) => {
   return (
