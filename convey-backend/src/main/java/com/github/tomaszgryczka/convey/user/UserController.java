@@ -1,48 +1,48 @@
 package com.github.tomaszgryczka.convey.user;
 
-import com.github.tomaszgryczka.convey.login.MyUserDetails;
-import com.github.tomaszgryczka.convey.response.AuthResponse;
-import com.github.tomaszgryczka.convey.response.UserResponse;
+import com.github.tomaszgryczka.convey.authentication.login.MyUserDetails;
+import com.github.tomaszgryczka.convey.authentication.response.AuthResponse;
+import com.github.tomaszgryczka.convey.authentication.response.UserResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     private final UserService userService;
 
     @PostMapping("/protected")
-    public ResponseEntity<?> authenticateUser() {
+    public AuthResponse authenticateUser() {
 
-        return ResponseEntity.ok(new AuthResponse("ok"));
+        return new AuthResponse("User authenticated");
     }
 
     @GetMapping("/user/me")
-    public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal MyUserDetails userDetails) {
+    public UserResponse getCurrentUser(@AuthenticationPrincipal MyUserDetails userDetails) {
 
-        return ResponseEntity.ok(
-                UserResponse
-                        .builder()
-                        .id(userDetails.getId().toString())
-                        .username(userDetails.getUsername())
-                        .build());
+        return UserResponse
+                .builder()
+                .id(userDetails.getId())
+                .username(userDetails.getUsername())
+                .email(userDetails.getEmail())
+                .build();
     }
 
     @GetMapping("/user/contacts")
-    public ResponseEntity<?> getUsers(@AuthenticationPrincipal MyUserDetails userDetails) {
+    public List<UserResponse> getUsers(@AuthenticationPrincipal MyUserDetails userDetails) {
 
-        return ResponseEntity.ok(
-                userService
-                        .findAll()
-                        .stream()
-                        .filter(user -> !user.getUsername().equals(userDetails.getUsername()))
-                        .map(userService::convert));
+        return userService
+                .findAll()
+                .stream()
+                .filter(user -> !user.getUsername().equals(userDetails.getUsername()))
+                .map(userService::convert)
+                .collect(Collectors.toList());
     }
 }

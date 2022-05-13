@@ -103,7 +103,7 @@ const Chat = (props) => {
     if (activeContact.id === notification.senderId) {
       findChatMessage(notification.id).then((message) => {
         const newMessages = [...messages];
-        newMessages.push(message);
+        newMessages.push(message)
         setMessages(newMessages);
       });
     } else {

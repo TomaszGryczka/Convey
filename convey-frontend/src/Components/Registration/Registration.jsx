@@ -29,8 +29,9 @@ class Registration extends Component {
         password: password.value,
         email: email.value,
     }).then(() => {
-        this.showRegistrationAlert("success", "User registered!", "You can now log in with your credentials.");
-        navigate.navigate("/login");
+        //this.showRegistrationAlert("success", "User registered!", "You can now log in with your credentials.");
+        const success = ["success", "User registered!", "You can now log in with your credentials."];
+        navigate.navigate("/login", success);
         window.location.reload();
     }).catch((error) => {
       if(error.status === 409) {

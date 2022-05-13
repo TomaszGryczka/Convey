@@ -1,9 +1,10 @@
 package com.github.tomaszgryczka.convey.user;
 
-import com.github.tomaszgryczka.convey.login.jwttoken.JwtTokenUtil;
-import com.github.tomaszgryczka.convey.register.exception.UserAlreadyExistsException;
-import com.github.tomaszgryczka.convey.response.UserResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.github.tomaszgryczka.convey.authentication.jwttoken.JwtTokenUtil;
+import com.github.tomaszgryczka.convey.authentication.register.RegistrationRequest;
+import com.github.tomaszgryczka.convey.authentication.register.exception.UserAlreadyExistsException;
+import com.github.tomaszgryczka.convey.authentication.response.UserResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,30 +16,34 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenUtil jwtTokenUtil;
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    public UserService(UserRepository userRepository, JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager) {
-        this.userRepository = userRepository;
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.authenticationManager = authenticationManager;
-    }
+    private final PasswordEncoder passwordEncoder;
 
-    public void signUp(User user) {
+    public UserResponse signUp(RegistrationRequest registrationRequest) {
+
+        User user = registrationRequest.toUser(passwordEncoder);
 
         Optional<User> userFromDb = userRepository.findByUsername(user.getUsername());
 
         if (userFromDb.isPresent()) {
-            throw new UserAlreadyExistsException(user.getUsername() + " already exists");
+            throw new UserAlreadyExistsException("User " + user.getUsername() + " already exists");
         }
 
-        userRepository.save(user);
+        User newUser = userRepository.save(user);
+
+        return UserResponse.builder()
+                .id(newUser.getId())
+                .username(newUser.getUsername())
+                .email(newUser.getEmail())
+                .build();
     }
 
     public String signIn(String username, String password, PasswordEncoder passwordEncoder) {
@@ -62,7 +67,7 @@ public class UserService {
     public UserResponse convert(User user) {
         return UserResponse
                 .builder()
-                .id(user.getId().toString())
+                .id(user.getId())
                 .username(user.getUsername())
                 .build();
     }

@@ -1,4 +1,4 @@
-package com.github.tomaszgryczka.convey.login;
+package com.github.tomaszgryczka.convey.authentication.login;
 
 import com.github.tomaszgryczka.convey.user.User;
 import org.springframework.security.core.GrantedAuthority;

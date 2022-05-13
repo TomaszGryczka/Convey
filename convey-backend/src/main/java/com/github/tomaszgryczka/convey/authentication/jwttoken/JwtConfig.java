@@ -1,4 +1,4 @@
-package com.github.tomaszgryczka.convey.login.jwttoken;
+package com.github.tomaszgryczka.convey.authentication.jwttoken;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

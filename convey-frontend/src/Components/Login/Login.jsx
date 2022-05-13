@@ -29,15 +29,15 @@ class Login extends Component {
         username: username.value,
         password: password.value,
     }).then((response) => {
-          //this.showRegistrationAlert("success", "User logged in!", "");
+          this.showRegistrationAlert("success", "User logged in!", "");
           localStorage.setItem("accessToken", response.token);
           navigate.navigate("/chat");
           window.location.reload();
         }).catch((error) => {
           if(error.status === 401) {
-            //this.showRegistrationAlert("danger", "Error!", "Incorrect username or password!");
+            this.showRegistrationAlert("danger", "Error!", "Incorrect username or password!");
           } else {
-            ///this.showRegistrationAlert("danger", "Error!", "Something went wrong.");
+            this.showRegistrationAlert("danger", "Error!", "Something went wrong.");
           }
       });
   }

@@ -1,15 +1,16 @@
-package com.github.tomaszgryczka.convey.login;
+package com.github.tomaszgryczka.convey.authentication.login;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class LoginRequest {
 
-    @NotBlank
+    @NotNull
     private String username;
 
-    @NotBlank
+    @NotNull
     private String password;
 }

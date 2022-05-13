@@ -3,8 +3,6 @@ package com.github.tomaszgryczka.convey.chat.room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class ChatRoomService {
@@ -13,37 +11,31 @@ public class ChatRoomService {
 
     public String getChatId(String senderId, String recipientId) {
 
-        Optional<ChatRoom> chatRoom = chatRoomRepository.findBySenderIdAndRecipientId(senderId, recipientId);
+        return (chatRoomRepository.findBySenderIdAndRecipientId(senderId, recipientId))
+                .orElse(makeNewChatRoom(senderId, recipientId)).getChatId();
+    }
 
-        System.out.println(chatRoom.isPresent());
+    private ChatRoom makeNewChatRoom(String senderId, String recipientId) {
+        String chatId = String.format("%s_%s", senderId, recipientId);
 
-        if (chatRoom.isPresent()) {
-            System.out.println(chatRoom.get().getChatId());
-            return chatRoom.get().getChatId();
-        } else {
-            String chatId = String.format("%s_%s", senderId, recipientId);
-
-            ChatRoom senderRecipient = ChatRoom
-                    .builder()
-                    .chatId(chatId)
-                    .senderId(senderId)
-                    .recipientId(recipientId)
-                    .build();
+        ChatRoom senderRecipient = ChatRoom
+                .builder()
+                .chatId(chatId)
+                .senderId(senderId)
+                .recipientId(recipientId)
+                .build();
 
 
-            ChatRoom recipientSender = ChatRoom
-                    .builder()
-                    .chatId(chatId)
-                    .senderId(recipientId)
-                    .recipientId(senderId)
-                    .build();
+        ChatRoom recipientSender = ChatRoom
+                .builder()
+                .chatId(chatId)
+                .senderId(recipientId)
+                .recipientId(senderId)
+                .build();
 
-            System.out.println(chatId);
+        chatRoomRepository.save(senderRecipient);
+        chatRoomRepository.save(recipientSender);
 
-            chatRoomRepository.save(senderRecipient);
-            chatRoomRepository.save(recipientSender);
-
-            return chatId;
-        }
+        return senderRecipient;
     }
 }

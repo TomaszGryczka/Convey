@@ -1,4 +1,4 @@
-package com.github.tomaszgryczka.convey.register.exception;
+package com.github.tomaszgryczka.convey.authentication.register.exception;
 
 public class UserAlreadyExistsException extends RuntimeException {
 

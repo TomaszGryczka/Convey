@@ -1,6 +1,6 @@
-package com.github.tomaszgryczka.convey.register.exception;
+package com.github.tomaszgryczka.convey.authentication.register.exception;
 
-import com.github.tomaszgryczka.convey.response.AuthResponse;
+import com.github.tomaszgryczka.convey.authentication.response.AuthResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class RegisterExceptionHandlerAdvice {
 
     @ExceptionHandler(value = UserAlreadyExistsException.class)
-    public ResponseEntity<?> handleUserExists(UserAlreadyExistsException e) {
+    public ResponseEntity<AuthResponse> handleUserExists(UserAlreadyExistsException e) {
 
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)

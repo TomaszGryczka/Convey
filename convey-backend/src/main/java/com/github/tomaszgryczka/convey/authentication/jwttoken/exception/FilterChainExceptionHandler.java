@@ -1,4 +1,4 @@
-package com.github.tomaszgryczka.convey.login.jwttoken.exception;
+package com.github.tomaszgryczka.convey.authentication.jwttoken.exception;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;

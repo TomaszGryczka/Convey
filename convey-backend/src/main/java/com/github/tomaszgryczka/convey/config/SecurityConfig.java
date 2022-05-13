@@ -1,7 +1,7 @@
 package com.github.tomaszgryczka.convey.config;
 
-import com.github.tomaszgryczka.convey.login.jwttoken.JwtRequestFilter;
-import com.github.tomaszgryczka.convey.login.jwttoken.exception.FilterChainExceptionHandler;
+import com.github.tomaszgryczka.convey.authentication.jwttoken.JwtRequestFilter;
+import com.github.tomaszgryczka.convey.authentication.jwttoken.exception.FilterChainExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;

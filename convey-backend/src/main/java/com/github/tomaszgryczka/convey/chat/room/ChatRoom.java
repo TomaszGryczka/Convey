@@ -1,13 +1,18 @@
 package com.github.tomaszgryczka.convey.chat.room;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Table
 @Entity
 @Builder
+@NoArgsConstructor
+@Getter
+@Setter
 public class ChatRoom {
 
     @Id
@@ -20,42 +25,10 @@ public class ChatRoom {
 
     private String recipientId;
 
-    public ChatRoom() {
-
-    }
-
     public ChatRoom(Long id, String chatId, String senderId, String recipientId) {
         this.id = id;
         this.chatId = chatId;
         this.senderId = senderId;
-        this.recipientId = recipientId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(String chatId) {
-        this.chatId = chatId;
-    }
-
-    public String getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
-    }
-
-    public String getRecipientId() {
-        return recipientId;
-    }
-
-    public void setRecipientId(String recipientId) {
         this.recipientId = recipientId;
     }
 }
