@@ -1,5 +1,6 @@
 #spring boot initializr
 HELP.md
+application.properties
 
 # maven
 target/
