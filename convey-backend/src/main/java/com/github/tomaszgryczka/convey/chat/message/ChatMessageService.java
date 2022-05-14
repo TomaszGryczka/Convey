@@ -2,6 +2,7 @@ package com.github.tomaszgryczka.convey.chat.message;
 
 import com.github.tomaszgryczka.convey.chat.room.ChatRoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,29 @@ public class ChatMessageService {
 
     private final ChatRoomService chatRoomService;
 
+    private final SimpMessagingTemplate simpMessagingTemplate;
+
+    public void sendMessage(ChatMessage chatMessage) {
+        String chatId = chatRoomService.getChatId(
+                chatMessage.getSenderId(),
+                chatMessage.getRecipientId());
+
+        chatMessage.setChatId(chatId);
+
+        save(chatMessage);
+
+        simpMessagingTemplate.convertAndSendToUser(
+                chatMessage.getRecipientId(),
+                "queue/messages",
+                new MessageNotification(
+                        chatMessage.getId(),
+                        chatMessage.getSenderId(),
+                        chatMessage.getSenderName()
+                ));
+    }
+
     public void save(ChatMessage chatMessage) {
+
         chatMessageRepository.save(chatMessage);
     }
 

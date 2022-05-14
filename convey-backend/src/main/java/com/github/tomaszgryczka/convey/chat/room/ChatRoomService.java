@@ -12,7 +12,9 @@ public class ChatRoomService {
     public String getChatId(String senderId, String recipientId) {
 
         return (chatRoomRepository.findBySenderIdAndRecipientId(senderId, recipientId))
-                .orElse(makeNewChatRoom(senderId, recipientId)).getChatId();
+                .orElseGet(() -> {
+                    return makeNewChatRoom(senderId, recipientId);
+                }).getChatId();
     }
 
     private ChatRoom makeNewChatRoom(String senderId, String recipientId) {
@@ -33,9 +35,13 @@ public class ChatRoomService {
                 .recipientId(senderId)
                 .build();
 
+        System.out.println("tak");
+
         chatRoomRepository.save(senderRecipient);
         chatRoomRepository.save(recipientSender);
 
         return senderRecipient;
     }
+
+
 }

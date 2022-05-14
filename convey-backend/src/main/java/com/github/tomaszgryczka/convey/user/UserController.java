@@ -43,6 +43,6 @@ public class UserController {
                 .stream()
                 .filter(user -> !user.getUsername().equals(userDetails.getUsername()))
                 .map(userService::convert)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

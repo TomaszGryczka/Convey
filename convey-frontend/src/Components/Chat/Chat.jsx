@@ -145,12 +145,9 @@ const Chat = (props) => {
       <div id="sidepanel">
         <div className="profile">
           <div className="wrap">
-            <img
-              id="profile-img"
-              src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
-              className="online"
-              alt=""
-            />
+            <div id="profile-img" className="online">
+                {currentUser.username.charAt(0).toUpperCase()}
+            </div>
             <p>{currentUser.username}</p>
             <div id="status-options">
               <ul>
@@ -188,7 +185,9 @@ const Chat = (props) => {
                 >
                   <div className="wrap">
                     <span className="contact-status online"></span>
-                    <img id="" src="" alt="" />
+                    <div id="profile-img">
+                      {contact.username.charAt(0).toUpperCase()}
+                    </div>
                     <div className="meta">
                       <p className="name">{contact.username}</p>
                       {contact.newMessages !== undefined &&
@@ -223,12 +222,11 @@ const Chat = (props) => {
         <ScrollToBottom className="messages">
           <ul>
             {messages.map((msg) => {
-              console.log(msg.id);
               return (
                 <li
                 key={msg.id}
                   className={
-                    msg.senderId === currentUser.id ? "sent" : "replies"
+                    msg.senderId == currentUser.id ? "sent" : "replies"
                   }
                 >
                   {msg.senderId !== currentUser.id && <img src="" alt="" />}

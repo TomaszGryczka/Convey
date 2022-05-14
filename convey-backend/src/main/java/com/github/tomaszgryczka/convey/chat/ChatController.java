@@ -7,13 +7,13 @@ import com.github.tomaszgryczka.convey.chat.room.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class ChatController {
 
@@ -26,29 +26,15 @@ public class ChatController {
     @MessageMapping("/chat")
     private void processMessage(ChatMessage chatMessage) {
 
-        String chatId = chatRoomService.getChatId(
-                chatMessage.getSenderId(),
-                chatMessage.getRecipientId());
-
-        chatMessage.setChatId(chatId);
-
-        chatMessageService.save(chatMessage);
-
-        simpMessagingTemplate.convertAndSendToUser(
-                chatMessage.getRecipientId(),
-                "queue/messages",
-                new MessageNotification(
-                        chatMessage.getId(),
-                        chatMessage.getSenderId(),
-                        chatMessage.getRecipientName()
-                ));
-
+        chatMessageService.sendMessage(chatMessage);
     }
 
     @GetMapping("/messages/{senderId}/{recipientId}")
     public List<ChatMessage> findChatMessages(
             @PathVariable String senderId,
             @PathVariable String recipientId) {
+
+        System.out.println(senderId + " " + recipientId);
 
         return chatMessageService.findChatMessages(senderId, recipientId);
     }

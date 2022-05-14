@@ -84,35 +84,41 @@
     margin: 0px;
   }
 }
-#frame #sidepanel .profile .wrap img {
-  width: 50px;
-  border-radius: 50%;
-  padding: 3px;
-  border: 2px solid #e74c3c;
-  height: auto;
-  float: left;
-  cursor: pointer;
-  -moz-transition: 0.3s border ease;
-  -o-transition: 0.3s border ease;
-  -webkit-transition: 0.3s border ease;
-  transition: 0.3s border ease;
+#profile-img {
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
+    background: #3a5169;
+
+    background: radial-gradient(circle farthest-corner at center center, #000000 0%, #2D3E50 70%);
+    font-size: 30px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    line-height: 50px;
+
+    float: left;
+    cursor: pointer;
+    -moz-transition: 0.3s border ease;
+    -o-transition: 0.3s border ease;
+    -webkit-transition: 0.3s border ease;
+    transition: 0.3s border ease;
 }
 @media screen and (max-width: 735px) {
-  #frame #sidepanel .profile .wrap img {
+  #frame #sidepanel .profile .wrap #profile-img {
     width: 40px;
     margin-left: 4px;
   }
 }
-#frame #sidepanel .profile .wrap img.online {
+#frame #sidepanel .profile .wrap #profile-img.online {
   border: 2px solid #2ecc71;
 }
-#frame #sidepanel .profile .wrap img.away {
+#frame #sidepanel .profile .wrap #profile-img.away {
   border: 2px solid #f1c40f;
 }
-#frame #sidepanel .profile .wrap img.busy {
+#frame #sidepanel .profile .wrap #profile-img.busy {
   border: 2px solid #e74c3c;
 }
-#frame #sidepanel .profile .wrap img.offline {
+#frame #sidepanel .profile .wrap #profile-img.offline {
   border: 2px solid #95a5a6;
 }
 #frame #sidepanel .profile .wrap p {
