@@ -15,17 +15,6 @@ const Profile = (props) => {
         loadCurrentUser();
     });
 
-    const loadCurrentUser = () => {
-        getCurrentUser().then((response) => {
-            setloggedInUser(response);
-            console.log(" ZALADOWANO USERA!");
-        }).catch((error) => { 
-          console.log("NIE ZALADOWANO USERA!");
-            //navigate("/login");
-        });
-    }
-    
-
     const logout = () => {
         localStorage.removeItem("accessToken");
         navigate("/login");

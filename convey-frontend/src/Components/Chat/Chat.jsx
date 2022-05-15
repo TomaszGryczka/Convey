@@ -13,6 +13,7 @@ import {
   findChatMessages,
   getCurrentUser,
   getUsers,
+  isJWTValidated,
 } from "../../Util/Util";
 
 import "./Chat.css";
@@ -38,6 +39,8 @@ const Chat = (props) => {
   }, [currentUser]);
 
   useEffect(() => {
+    isJWTValidated();
+
     loadCurrentUser();
     loadContacts();
   }, []);
@@ -77,6 +80,7 @@ const Chat = (props) => {
 
       const newMessages = [...messages];
       newMessages.push(message);
+      console.log(newMessages);
       setMessages(newMessages);
     }
   };
@@ -119,16 +123,16 @@ const Chat = (props) => {
   const loadContacts = () => {
     const promise = getUsers().then((users) => {
       users.map((user) => {
-        return countNewMessages(user.id, currentUser.id).then((numOfMessages) => ({
-            ...user,
-            newMessages: numOfMessages
-        }));
+        return countNewMessages(user.id, currentUser.id).then((numOfMessages) => { 
+          user.newMessages = numOfMessages;
+        });
       });
       return users;
     });
 
     promise.then((promises) => {
       Promise.all(promises).then((users) => {
+        console.log(users[0].newMessages);
         setContacts(users);
         if (activeContact.id === undefined && users.length > 0) {
           setActiveContact(users[0]);
@@ -146,7 +150,7 @@ const Chat = (props) => {
         <div className="profile">
           <div className="wrap">
             <div id="profile-img" className="online">
-                {currentUser.username.charAt(0).toUpperCase()}
+            {(new String(currentUser.username)).charAt(0).toUpperCase()}
             </div>
             <p>{currentUser.username}</p>
             <div id="status-options">
@@ -171,6 +175,7 @@ const Chat = (props) => {
         <div className="contacts">
           <ul>
             {contacts.map((contact) => {
+              console.log(contact.newMessages);
               return (
                 <li
                   key={contact.username}
@@ -193,7 +198,7 @@ const Chat = (props) => {
                       {contact.newMessages !== undefined &&
                         contact.newMessages > 0 && (
                           <p className="preview">
-                            {contact.newMessages} new messages
+                            <span>{contact.newMessages} new messages</span>
                           </p>
                         )}
                     </div>

@@ -37,7 +37,7 @@ public class ChatMessageService {
     }
 
     public void save(ChatMessage chatMessage) {
-
+        chatMessage.setMessageStatus(MessageStatus.RECEIVED);
         chatMessageRepository.save(chatMessage);
     }
 
@@ -47,11 +47,15 @@ public class ChatMessageService {
 
         List<ChatMessage> messages = chatMessageRepository.findAllByChatId(chatId);
 
+        if (messages.isEmpty()) {
+            updateStatuses();
+        }
+
         return messages;
     }
 
     public Long countNewMessages(String senderId, String recipientId) {
-        return chatMessageRepository.countBySenderIdAndRecipientId(senderId, recipientId);
+        return chatMessageRepository.countBySenderIdAndRecipientIdAndMessageStatus(senderId, recipientId, MessageStatus.RECEIVED);
     }
 
     public ChatMessage findById(Long id) {
@@ -62,6 +66,10 @@ public class ChatMessageService {
                     return chatMessageRepository.save(chatMessage);
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Message " + id + " not found."));
+
+    }
+
+    private void updateStatuses() {
 
     }
 }

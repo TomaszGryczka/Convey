@@ -35,6 +35,11 @@ export function isJWTValidated() {
             url: API_SERVICE + "/protected",
             method: "POST"
         }).then((response => {
+            if(response.status === 401) {
+                console.log(response.status);
+                return false;
+            }
+
             return true;
         })).catch((error) => {
             return false;
