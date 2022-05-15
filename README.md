@@ -2,8 +2,8 @@
 One-to-one web chat application using Spring Boot, Hibernate and MySQL.
 
 ## Table of content
-- [Descritpion](#description)
 - [Technologies](#technologies)
+- [Descritpion](#description)
 - [Getting started](#gettingstarted)
   - [Dependencies](#dependencies)
   - [Installing](#installing)
