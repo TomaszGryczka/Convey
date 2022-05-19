@@ -13,14 +13,17 @@ import {
   findChatMessages,
   getCurrentUser,
   getUsers,
-  isJWTValidated,
 } from "../../Util/Util";
 
 import "./Chat.css";
+import { useNavigate } from "react-router-dom";
 
 let stompClient = null;
 
 const Chat = (props) => {
+
+  const navigate = useNavigate();
+
   const [currentUser, setloggedInUser] = useRecoilState(loggedInUser);
 
   const [contacts, setContacts] = useState([]);
@@ -32,18 +35,19 @@ const Chat = (props) => {
   const [text, setText] = useState("");
 
   useEffect(() => {
+    if(localStorage.getItem("accessToken") === null) {
+      navigate("/login");
+    }
+
+    loadCurrentUser();
+  }, []);
+
+  useEffect(() => {
     if (currentUser.id === undefined) return;
 
     connect();
     loadContacts();
-  }, [currentUser]);
-
-  useEffect(() => {
-    isJWTValidated();
-
-    loadCurrentUser();
-    loadContacts();
-  }, []);
+  }, [currentUser.id]);
 
   useEffect(() => {
     if (activeContact.id === undefined || currentUser.id === undefined) return;
@@ -54,18 +58,67 @@ const Chat = (props) => {
     loadContacts();
   }, [activeContact]);
 
+  const connect = () => {
+    const Stomp = require("stompjs");
+    var SockJS = require("sockjs-client");
+    SockJS = new SockJS("http://localhost:8080/ws");
+    stompClient = Stomp.over(SockJS);
+    stompClient.connect({}, onConnected, onError);
+  };
+
   const loadCurrentUser = async () => {
     await getCurrentUser()
       .then((response) => {
         setloggedInUser(response);
-        return response;
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  const onConnected = () => {
+    stompClient.subscribe(
+      "/user/" + currentUser.id + "/queue/messages",
+      onMessageReceived
+    );
+  };
+
+  const onError = (err) => {
+    console.log("Error connecting!");
+  };
+
+  const loadContacts = () => {
+    let promise = getUsers().then((users) => {
+
+      let copyOfUsers = [...users];
+
+      copyOfUsers.map((user) => {
+        countNewMessages(user.id, currentUser.id).then((numOfMessages) => {
+          let contactCopy = structuredClone(user);
+          contactCopy.newMessages = numOfMessages;
+
+          return contactCopy;
+        });
+      
+        setContacts(copyOfUsers);
+        if (activeContact.id === undefined && copyOfUsers.length > 0 && currentUser.id !== undefined) {
+          
+          let contactCopy = structuredClone(users[0]);
+          contactCopy.newMessages = 0;
+          
+          setActiveContact(copyOfUsers[0]);
+       }
+      
+      });
+      return copyOfUsers;
+    })
+  }
+
   const sendMessage = (msg) => {
+    if(currentUser.id === undefined || activeContact.id === undefined) {
+      return;
+    }
+
     if (msg.trim !== "") {
       const message = {
         senderId: currentUser.id,
@@ -80,24 +133,8 @@ const Chat = (props) => {
 
       const newMessages = [...messages];
       newMessages.push(message);
-      console.log(newMessages);
       setMessages(newMessages);
     }
-  };
-
-  const connect = () => {
-    const Stomp = require("stompjs");
-    var SockJS = require("sockjs-client");
-    SockJS = new SockJS("http://localhost:8080/ws");
-    stompClient = Stomp.over(SockJS);
-    stompClient.connect({}, onConnected, onError);
-  };
-
-  const onConnected = () => {
-    stompClient.subscribe(
-      "/user/" + currentUser.id + "/queue/messages",
-      onMessageReceived
-    );
   };
 
   const onMessageReceived = (msg) => {
@@ -114,34 +151,6 @@ const Chat = (props) => {
       message.info("Received new message from " + notification.senderName);
     }
     loadContacts();
-  };
-
-  const onError = (err) => {
-    console.log("Error connecting!");
-  };
-
-  const loadContacts = () => {
-    const promise = getUsers().then((users) => {
-      users.map((user) => {
-        return countNewMessages(user.id, currentUser.id).then((numOfMessages) => { 
-          user.newMessages = numOfMessages;
-        });
-      });
-      return users;
-    });
-
-    promise.then((promises) => {
-      Promise.all(promises).then((users) => {
-        console.log(users[0].newMessages);
-        setContacts(users);
-        if (activeContact.id === undefined && users.length > 0) {
-          setActiveContact(users[0]);
-          findChatMessages(users[0].id, currentUser.id).then((messages) => {
-            setMessages(messages);
-          });
-        }
-      });
-    });
   };
 
   return (
@@ -175,7 +184,6 @@ const Chat = (props) => {
         <div className="contacts">
           <ul>
             {contacts.map((contact) => {
-              console.log(contact.newMessages);
               return (
                 <li
                   key={contact.username}
@@ -195,7 +203,8 @@ const Chat = (props) => {
                     </div>
                     <div className="meta">
                       <p className="name">{contact.username}</p>
-                      {contact.newMessages !== undefined &&
+                      {activeContact.id !== contact.id && 
+                      contact.newMessages !== undefined &&
                         contact.newMessages > 0 && (
                           <p className="preview">
                             <span>{contact.newMessages} new messages</span>
@@ -248,6 +257,11 @@ const Chat = (props) => {
               size="large"
               placeholder="Write your message..."
               value={text}
+              onClick={() => {
+                let activeContactCopy = structuredClone(activeContact);
+                activeContactCopy.newMessages = 0;
+                setActiveContact(activeContactCopy);
+              }}
               onChange={(event) => setText(event.target.value)}
               onKeyPress={(event) => {
                 if (event.key === "Enter") {

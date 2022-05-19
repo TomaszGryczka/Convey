@@ -3,6 +3,8 @@ package com.github.tomaszgryczka.convey.chat.room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ChatRoomService {
@@ -11,10 +13,14 @@ public class ChatRoomService {
 
     public String getChatId(String senderId, String recipientId) {
 
-        return (chatRoomRepository.findBySenderIdAndRecipientId(senderId, recipientId))
-                .orElseGet(() -> {
-                    return makeNewChatRoom(senderId, recipientId);
-                }).getChatId();
+        Optional<ChatRoom> chatRoom = chatRoomRepository.findBySenderIdAndRecipientId(senderId, recipientId);
+
+        if (chatRoom.isPresent()) {
+            return chatRoom.get().getChatId();
+        } else {
+            System.out.println("jak to");
+            return makeNewChatRoom(senderId, recipientId).getChatId();
+        }
     }
 
     private ChatRoom makeNewChatRoom(String senderId, String recipientId) {
@@ -27,15 +33,12 @@ public class ChatRoomService {
                 .recipientId(recipientId)
                 .build();
 
-
         ChatRoom recipientSender = ChatRoom
                 .builder()
                 .chatId(chatId)
                 .senderId(recipientId)
                 .recipientId(senderId)
                 .build();
-
-        System.out.println("tak");
 
         chatRoomRepository.save(senderRecipient);
         chatRoomRepository.save(recipientSender);

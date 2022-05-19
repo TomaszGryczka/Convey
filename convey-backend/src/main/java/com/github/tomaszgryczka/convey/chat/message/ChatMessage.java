@@ -1,10 +1,15 @@
 package com.github.tomaszgryczka.convey.chat.message;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table
+@Entity(name = "Chat_Message")
+@Table(name = "chat_message")
+@Getter
+@Setter
 public class ChatMessage {
 
     @Id
@@ -25,73 +30,10 @@ public class ChatMessage {
 
     private Date timestamp;
 
-    public MessageStatus getMessageStatus() {
-        return messageStatus;
-    }
+    private String messageStatus;
 
     public void setMessageStatus(MessageStatus messageStatus) {
-        this.messageStatus = messageStatus;
-    }
 
-    private MessageStatus messageStatus;
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(String chatId) {
-        this.chatId = chatId;
-    }
-
-    public String getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
-    }
-
-    public String getRecipientId() {
-        return recipientId;
-    }
-
-    public void setRecipientId(String recipientId) {
-        this.recipientId = recipientId;
-    }
-
-    public String getSenderName() {
-        return senderName;
-    }
-
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
-
-    public String getRecipientName() {
-        return recipientName;
-    }
-
-    public void setRecipientName(String recipendName) {
-        this.recipientName = recipendName;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+        this.messageStatus = messageStatus.name();
     }
 }

@@ -34,8 +34,6 @@ public class ChatController {
             @PathVariable String senderId,
             @PathVariable String recipientId) {
 
-        System.out.println(senderId + " " + recipientId);
-
         return chatMessageService.findChatMessages(senderId, recipientId);
     }
 

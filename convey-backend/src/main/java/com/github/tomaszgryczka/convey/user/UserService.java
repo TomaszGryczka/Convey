@@ -69,6 +69,7 @@ public class UserService {
                 .builder()
                 .id(user.getId())
                 .username(user.getUsername())
+                .email(user.getEmail())
                 .build();
     }
 }

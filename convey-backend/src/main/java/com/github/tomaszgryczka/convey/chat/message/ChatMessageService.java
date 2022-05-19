@@ -47,8 +47,8 @@ public class ChatMessageService {
 
         List<ChatMessage> messages = chatMessageRepository.findAllByChatId(chatId);
 
-        if (messages.isEmpty()) {
-            updateStatuses();
+        if (!messages.isEmpty()) {
+            updateStatuses(senderId, recipientId, MessageStatus.DELIVERED);
         }
 
         return messages;
@@ -69,7 +69,7 @@ public class ChatMessageService {
 
     }
 
-    private void updateStatuses() {
-
+    private void updateStatuses(String senderId, String recipientId, MessageStatus messageStatus) {
+        chatMessageRepository.setMessageStatusBySenderIdAndRecipientId(senderId, recipientId, messageStatus.name());
     }
 }

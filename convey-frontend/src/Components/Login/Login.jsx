@@ -32,7 +32,6 @@ class Login extends Component {
           this.showRegistrationAlert("success", "User logged in!", "");
           localStorage.setItem("accessToken", response.token);
           navigate.navigate("/chat");
-          window.location.reload();
         }).catch((error) => {
           if(error.status === 401) {
             this.showRegistrationAlert("danger", "Error!", "Incorrect username or password!");
