@@ -132,6 +132,7 @@ const Chat = (props) => {
       stompClient.send("/app/chat", {}, JSON.stringify(message));
 
       const newMessages = [...messages];
+      message.id = messages.length + 1;
       newMessages.push(message);
       setMessages(newMessages);
     }
@@ -238,7 +239,7 @@ const Chat = (props) => {
             {messages.map((msg) => {
               return (
                 <li
-                key={msg.id}
+                  key={msg.id}
                   className={
                     msg.senderId == currentUser.id ? "sent" : "replies"
                   }

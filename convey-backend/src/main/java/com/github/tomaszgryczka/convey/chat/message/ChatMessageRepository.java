@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
     List<ChatMessage> findAllByChatId(String ChatId);
 
-    Long countBySenderIdAndRecipientIdAndMessageStatus(String senderId, String recipientId, MessageStatus messageStatus);
+    Long countBySenderIdAndRecipientIdAndMessageStatus(String senderId, String recipientId, String messageStatus);
 
     Optional<ChatMessage> findById(Long id);
 

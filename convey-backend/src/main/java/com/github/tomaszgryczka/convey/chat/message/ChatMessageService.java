@@ -55,7 +55,9 @@ public class ChatMessageService {
     }
 
     public Long countNewMessages(String senderId, String recipientId) {
-        return chatMessageRepository.countBySenderIdAndRecipientIdAndMessageStatus(senderId, recipientId, MessageStatus.RECEIVED);
+        String messageStatus = MessageStatus.RECEIVED.name();
+
+        return chatMessageRepository.countBySenderIdAndRecipientIdAndMessageStatus(senderId, recipientId, messageStatus);
     }
 
     public ChatMessage findById(Long id) {

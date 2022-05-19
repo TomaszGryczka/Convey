@@ -30,56 +30,6 @@ const request = (options) => {
   );
 }
 
-const betterRequest = (options) => {
-    const headers = new Headers();
-
-    if(options.setContentType !== false) {
-        headers.append("Content-Type", "application/json");
-    }
-
-    if(localStorage.getItem("accessToken")) {
-        headers.append(
-            "Authorization",
-            "Bearer " + localStorage.getItem("accessToken")
-        );
-    }
-
-    const defaults = {headers: headers}
-    
-    options = Object.assign({}, defaults, options);
-
-    return fetch(options.url, options);
-}
-
-export function isJWTValidatedBetter() {
-    return betterRequest({
-            url: API_SERVICE + "/protected",
-            method: "POST"
-        });
-}
-
-export function isJWTValidated() {
-    console.log("wykonuje sie");
-
-    request({
-            url: API_SERVICE + "/protected",
-            method: "POST"
-        }).then((response => {
-            console.log(response);
-            if(response.status === 403) {
-                console.log(response.status);
-                return false;
-            }
-
-            console.log("tak");
-
-            return true;
-        })).catch((error) => {
-            console.log("error");
-            return false;
-        });
-}
-
 export function signUp(signUpRequest) {
     return request({
         url: API_SERVICE + "/users",
