@@ -1,16 +1,20 @@
 package com.github.tomaszgryczka.convey.authentication.login;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-@Data
+@AllArgsConstructor
+@Getter
 public class LoginRequest {
 
-    @NotNull
+    @NotBlank(message = "Username field cannot be blank")
+    @Size(min = 3, max = 40)
     private String username;
 
-    @NotNull
+    @NotBlank(message = "Password field cannot be blank")
+    @Size(min = 3, max = 15)
     private String password;
 }

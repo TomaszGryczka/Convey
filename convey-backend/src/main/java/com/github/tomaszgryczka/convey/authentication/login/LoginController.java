@@ -3,7 +3,6 @@ package com.github.tomaszgryczka.convey.authentication.login;
 import com.github.tomaszgryczka.convey.authentication.jwttoken.JwtAuthResponse;
 import com.github.tomaszgryczka.convey.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +19,7 @@ public class LoginController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/session")
-    public JwtAuthResponse authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public JwtAuthResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         String token = userService.signIn(loginRequest.getUsername(), loginRequest.getPassword(), passwordEncoder);
 

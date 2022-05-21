@@ -6,7 +6,8 @@
   min-height: 300px;
   max-height: 720px;
   background: #e6eaea;
-  margin-left: 270px;
+  margin-left: 450px;
+  margin-top: 70px;
 }
 
 @media screen and (max-width: 360px) {
@@ -605,14 +606,14 @@
   line-height: 60px;
   background: #f5f5f5;
 }
-#frame .content .contact-profile img {
-  width: 40px;
+#frame .content .contact-profile #profile-img {
   border-radius: 50%;
   float: left;
-  margin: 9px 12px 0 9px;
+  margin: 5px 12px 0 9px;
 }
 #frame .content .contact-profile p {
   float: left;
+  margin-bottom: 0;
 }
 #frame .content .contact-profile .social-media {
   float: right;
@@ -627,6 +628,7 @@
 #frame .content .contact-profile .social-media i:hover {
   color: #435f7a;
 }
+
 #frame .content .messages {
   height: 600px;
   min-height: calc(100% - 93px);
@@ -637,43 +639,40 @@
   scrollbar-width: none;
   background: transparent;
 }
+
 @media screen and (max-width: 735px) {
   #frame .content .messages {
     max-height: calc(100% - 105px);
   }
 }
 
+#frame .content .messages ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
 #frame .content .messages ul li {
   display: inline-block;
   clear: both;
   float: left;
-  margin: 15px 15px 5px 15px;
+  margin: 0px 15px 0px 15px;
   width: calc(100% - 25px);
   font-size: 0.9em;
 }
 #frame .content .messages ul li:nth-last-child(1) {
   margin-bottom: 20px;
 }
-#frame .content .messages ul li.replies img {
-  margin: 6px 8px 0 0;
-}
+
 #frame .content .messages ul li.replies p {
   background: #435f7a;
   color: #f5f5f5;
 }
-#frame .content .messages ul li.sent img {
-  float: right;
-  margin: 6px 0 0 8px;
-}
+
 #frame .content .messages ul li.sent p {
   background: #f5f5f5;
   float: right;
 }
-#frame .content .messages ul li img {
-  width: 22px;
-  border-radius: 50%;
-  float: left;
-}
+
 #frame .content .messages ul li p {
   display: inline-block;
   padding: 10px 15px;

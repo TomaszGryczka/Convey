@@ -119,7 +119,7 @@ const Chat = (props) => {
       return;
     }
 
-    if (msg.trim !== "") {
+    if (msg.trim() !== "") {
       const message = {
         senderId: currentUser.id,
         recipientId: activeContact.id,
@@ -230,7 +230,9 @@ const Chat = (props) => {
       </div>
       <div className="content">
         <div className="contact-profile">
-          <img src="" alt="" />
+          <div id="profile-img">
+            {activeContact.username !== undefined && activeContact.username.charAt(0).toUpperCase()}
+          </div>
           <p>{activeContact && activeContact.username}</p>
         </div>
         <ScrollToBottom className="messages">
@@ -243,11 +245,6 @@ const Chat = (props) => {
                     msg.senderId == currentUser.id ? "sent" : "replies"
                   }
                 >
-                  {msg.senderId !== currentUser.id && 
-                    (<div id="profile-img" className="online">
-                      {(new String(currentUser.username)).charAt(0).toUpperCase()}
-                    </div>)
-                  }
                   <p>{msg.content}</p>
                 </li>
               );
