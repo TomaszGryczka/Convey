@@ -36,7 +36,7 @@ class RegistrationAlert extends Component {
             return (
                 <React.Fragment>
                     <div className="RegistrationAlert">
-                        <Alert variant={this.state.variant} onClose={() => this.setState({visible: false})} dismissible>
+                        <Alert className='m-4' variant={this.state.variant} onClose={() => this.setState({visible: false})} dismissible>
                             <Alert.Heading>{this.state.heading}</Alert.Heading>
                             <p>
                                 {this.state.message}

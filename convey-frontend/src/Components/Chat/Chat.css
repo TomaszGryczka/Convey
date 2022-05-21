@@ -84,6 +84,7 @@
     margin: 0px;
   }
 }
+
 #profile-img {
     width: 50px;
     height: auto;
@@ -103,6 +104,7 @@
     -webkit-transition: 0.3s border ease;
     transition: 0.3s border ease;
 }
+
 @media screen and (max-width: 735px) {
   #frame #sidepanel .profile .wrap #profile-img {
     width: 40px;
@@ -630,21 +632,17 @@
   min-height: calc(100% - 93px);
   max-height: calc(100% - 93px);
   overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: none;
   width: 100%;
+  scrollbar-width: none;
+  background: transparent;
 }
 @media screen and (max-width: 735px) {
   #frame .content .messages {
     max-height: calc(100% - 105px);
   }
 }
-#frame .content .messages::-webkit-scrollbar {
-  width: 8px;
-  background: transparent;
-}
-#frame .content .messages::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3);
-}
+
 #frame .content .messages ul li {
   display: inline-block;
   clear: both;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./Registration.css";
 import { signUp } from "../../Util/Util";
@@ -49,6 +49,21 @@ class Registration extends Component {
     this.registrationAlert.current.setVisible(true);
   }
 
+  hideRegistrationAlert() {
+    this.registrationAlert.current.setVisible(false);
+  }
+
+  handleConfirmPassword = (event) => {
+    const password = document.getElementById("password").value;
+    const passwordconfirm = document.getElementById("passwordconfirm").value;
+
+    if(password !== passwordconfirm) {
+      this.showRegistrationAlert("danger", "Incorrect password", "Passwords are not equal");
+    } else {
+      this.hideRegistrationAlert();
+    }
+  }
+
   render() {
       return (
           <div className="Registration">
@@ -69,9 +84,21 @@ class Registration extends Component {
               <Form.Group controlId="password">
                 <Form.Label className="mt-4">Password</Form.Label>
                 <Form.Control
+                  //id="passwd"
                   type="password"
                   name="password"
                   placeholder="Enter password"
+                />
+              </Form.Group>
+
+              <Form.Group controlId="passwordconfirm">
+                <Form.Label className="mt-4">Confirm Password</Form.Label>
+                <Form.Control
+                  //id="confirmPasswd"
+                  type="password"
+                  name="passwordcofirm"
+                  placeholder="Enter password"
+                  onChange={this.handleConfirmPassword}
                 />
               </Form.Group>
 
@@ -88,6 +115,12 @@ class Registration extends Component {
                 <Button className="m-3" variant="primary" type="submit">
                   Sign Up
                 </Button>
+              </div>
+
+              <div className="text-center">
+                <Link to={"/login"}>
+                Already have an account? Log In
+                </Link>
               </div>
             </Form>
 

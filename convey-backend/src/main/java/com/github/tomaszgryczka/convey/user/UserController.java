@@ -1,29 +1,23 @@
 package com.github.tomaszgryczka.convey.user;
 
 import com.github.tomaszgryczka.convey.authentication.login.MyUserDetails;
-import com.github.tomaszgryczka.convey.authentication.response.AuthResponse;
 import com.github.tomaszgryczka.convey.authentication.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/protected")
-    public AuthResponse authenticateUser() {
-
-        return new AuthResponse("User authenticated");
-    }
-
-    @GetMapping("/user/me")
+    @GetMapping("/me")
     public UserResponse getCurrentUser(@AuthenticationPrincipal MyUserDetails userDetails) {
 
         return UserResponse
@@ -34,7 +28,7 @@ public class UserController {
                 .build();
     }
 
-    @GetMapping("/user/contacts")
+    @GetMapping("/contacts")
     public List<UserResponse> getUsers(@AuthenticationPrincipal MyUserDetails userDetails) {
 
         return userService

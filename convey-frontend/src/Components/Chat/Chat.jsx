@@ -88,7 +88,7 @@ const Chat = (props) => {
   };
 
   const loadContacts = () => {
-    let promise = getUsers().then((users) => {
+    getUsers().then((users) => {
 
       let copyOfUsers = [...users];
 
@@ -140,7 +140,6 @@ const Chat = (props) => {
 
   const onMessageReceived = (msg) => {
     const notification = JSON.parse(msg.body);
-    const active = JSON.parse(sessionStorage.getItem("recoil-persist"));
 
     if (activeContact.id === notification.senderId) {
       findChatMessage(notification.id).then((message) => {
@@ -244,7 +243,11 @@ const Chat = (props) => {
                     msg.senderId == currentUser.id ? "sent" : "replies"
                   }
                 >
-                  {msg.senderId !== currentUser.id && <img src="" alt="" />}
+                  {msg.senderId !== currentUser.id && 
+                    (<div id="profile-img" className="online">
+                      {(new String(currentUser.username)).charAt(0).toUpperCase()}
+                    </div>)
+                  }
                   <p>{msg.content}</p>
                 </li>
               );

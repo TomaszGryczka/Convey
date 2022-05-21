@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import RegistrationAlert from "../Registration/RegistrationAlert";
 
@@ -49,6 +49,9 @@ class Login extends Component {
   }
 
   render() {
+
+    const navigate = this.props;
+
     return (
       <div className="Login">
         <div className="text-center m-4">
@@ -79,6 +82,12 @@ class Login extends Component {
             <Button className="m-3" variant="primary" type="submit">
               Log in
             </Button>
+          </div>
+
+          <div className="text-center">
+            <Link to={"/register"}>
+              Sign up for an account
+            </Link>
           </div>
         </Form>
   
