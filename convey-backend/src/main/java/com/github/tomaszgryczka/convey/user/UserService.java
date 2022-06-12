@@ -72,4 +72,15 @@ public class UserService {
                 .email(user.getEmail())
                 .build();
     }
+
+    public void changePassword(String username, String oldPassword, String newPassword) {
+
+        Optional<User> user = userRepository.login(username);
+
+        if (user.isPresent() && passwordEncoder.matches(oldPassword, user.get().getPassword())) {
+            userRepository.updatePasswordForUser(username, passwordEncoder.encode(newPassword));
+        } else {
+            throw new BadCredentialsException("Invalid username or password!");
+        }
+    }
 }

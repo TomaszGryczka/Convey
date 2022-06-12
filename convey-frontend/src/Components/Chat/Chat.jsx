@@ -218,10 +218,10 @@ const Chat = (props) => {
           </ul>
         </div>
         <div id="bottom-bar">
-          <Button id="addcontact">
+          {/* <Button id="addcontact">
             <i className="fa fa-user fa-fw" aria-hidden="true"></i>{" "}
             <span>Profile</span>
-          </Button>
+          </Button> */}
           <Button id="settings">
             <i className="fa fa-cog fa-fw" aria-hidden="true"></i>{" "}
             <span>Settings</span>

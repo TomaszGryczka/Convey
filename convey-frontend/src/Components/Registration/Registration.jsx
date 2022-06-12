@@ -6,16 +6,19 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Registration.css";
 import { signUp } from "../../Util/Util";
 import "./RegistrationAlert";
-import RegistrationAlert from "./RegistrationAlert";
+import AlertInfo from "./RegistrationAlert";
 
 const Registration = (props) => {
   const registrationAlert = React.createRef();
   const navigate = useNavigate();
 
   const handleSubmit = event => {
-    localStorage.clear();
     event.preventDefault();
-    registerUser(event.target.username, event.target.password, event.target.email);
+
+    if(validateRegister(event.target.username.value, event.target.password.value, event.target.email.value)) {
+      localStorage.clear();
+      registerUser(event.target.username, event.target.password, event.target.email);
+    }
   }
 
   const registerUser = (username, password, email) => {
@@ -24,12 +27,12 @@ const Registration = (props) => {
         password: password.value,
         email: email.value,
     }).then(() => {
-        const success = ["success", "User registered!", "You can now log in with your credentials."];
-        navigate("/login", success);
-        window.location.reload();
+        const success = true;
+        localStorage.setItem("success", success);
+        navigate("/login");
     }).catch((error) => {
       if(error.status === 409) {
-        showRegistrationAlert("danger", "User already exists!", "Please choose different name.");
+        showRegistrationAlert("danger", "User already exists!", "Please choose different username.");
       } else {
         showRegistrationAlert("danger", "User not registered!", "Please try again later.");
       }
@@ -52,10 +55,29 @@ const Registration = (props) => {
     const passwordconfirm = document.getElementById("passwordconfirm").value;
 
     if(password !== passwordconfirm) {
-      showRegistrationAlert("danger", undefined, "Passwords do not match");
+      showRegistrationAlert("danger", undefined, "Passwords do not match.");
     } else {
       hideRegistrationAlert();
     }
+  }
+
+  const validateRegister = (username, password, email) => {
+    if(username.trim() === "") {
+      showRegistrationAlert("danger", "Error!", "Empty username!");
+      return false;
+    } else if (password.trim() === "") {
+      showRegistrationAlert("danger", "Error!", "Empty password!");
+      return false;
+    } else if(!validateOnlyLettersAndNumbers(username)) {
+      showRegistrationAlert("danger", "Incorrect username!", "Username should contain only letters and numbers!");
+      return false;
+    }
+
+    return true;
+  }
+
+  const validateOnlyLettersAndNumbers = (stringToValidate) => {
+    return /^[A-Za-z0-9]*$/.test(stringToValidate);
   }
 
   return (
@@ -77,7 +99,6 @@ const Registration = (props) => {
         <Form.Group controlId="password">
           <Form.Label className="mt-4">Password</Form.Label>
           <Form.Control
-            //id="passwd"
             type="password"
             name="password"
             placeholder="Enter password"
@@ -87,7 +108,6 @@ const Registration = (props) => {
         <Form.Group controlId="passwordconfirm">
           <Form.Label className="mt-4">Confirm Password</Form.Label>
           <Form.Control
-            //id="confirmPasswd"
             type="password"
             name="passwordcofirm"
             placeholder="Enter password"
@@ -117,7 +137,7 @@ const Registration = (props) => {
         </div>
       </Form>
 
-      <RegistrationAlert ref={registrationAlert}/>
+      <AlertInfo ref={registrationAlert}/>
     </div>
   );
 }

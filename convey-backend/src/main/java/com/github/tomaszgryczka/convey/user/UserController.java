@@ -1,13 +1,14 @@
 package com.github.tomaszgryczka.convey.user;
 
+import com.github.tomaszgryczka.convey.authentication.login.LoginRequest;
 import com.github.tomaszgryczka.convey.authentication.login.MyUserDetails;
 import com.github.tomaszgryczka.convey.authentication.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -37,5 +38,11 @@ public class UserController {
                 .filter(user -> !user.getUsername().equals(userDetails.getUsername()))
                 .map(userService::convert)
                 .toList();
+    }
+
+    @PostMapping("/password")
+    public void changePassword(@Valid @RequestBody PasswordRequest passwordRequest) {
+
+        userService.changePassword(passwordRequest.getUsername(), passwordRequest.getOldPassword(), passwordRequest.getNewPassword());
     }
 }

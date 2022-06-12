@@ -17,9 +17,8 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
 
     Optional<ChatMessage> findById(Long id);
 
-
-    @Transactional
     @Modifying
+    @Transactional
     @Query("update Chat_Message set message_status = ?3 where sender_id = ?1 and recipient_id = ?2")
     void setMessageStatusBySenderIdAndRecipientId(String senderId, String recipientId, String messageStatus);
 }

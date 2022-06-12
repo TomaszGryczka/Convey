@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
 
-import RegistrationAlert from "../Registration/RegistrationAlert";
+import AlertInfo from "../Registration/RegistrationAlert";
 
 import "./Login.css";
 
@@ -13,12 +13,25 @@ const Login = (props) => {
 
   const navigate = useNavigate();
 
-  const registrationAlert = React.createRef();
+  const loginAlert = React.createRef();
+
+  useEffect(() => {
+    if(loginAlert.current === undefined) {
+      return;
+    }
+
+    signedUp();
+
+  }, [loginAlert.current])
+  
 
   const handleSubmit = event => {
     event.preventDefault();
-    localStorage.clear();
-    loginUser(event.target.username, event.target.password);
+
+    if(validateLogin(event.target.username.value, event.target.password.value)) {
+      localStorage.clear();
+      loginUser(event.target.username, event.target.password);
+    }
   }
 
   const loginUser = (username, password) => {
@@ -39,11 +52,32 @@ const Login = (props) => {
       });
   }
 
+  const validateLogin = (username, password) => {
+    if(username.trim() === "") {
+      showRegistrationAlert("danger", "Error!", "Empty username!");
+      return false;
+    } else if (password.trim() === "") {
+      showRegistrationAlert("danger", "Error!", "Empty password!");
+      return false;
+    }
+
+    return true;
+  }
+
   const showRegistrationAlert = (variant, heading, message) => {
-    registrationAlert.current.setVariant(variant);
-    registrationAlert.current.setHeading(heading);
-    registrationAlert.current.setMessage(message);
-    registrationAlert.current.setVisible(true);
+    loginAlert.current.setVariant(variant);
+    loginAlert.current.setHeading(heading);
+    loginAlert.current.setMessage(message);
+    loginAlert.current.setVisible(true);
+  }
+
+  const signedUp = () => {
+    const success = localStorage.getItem("success");
+    if(success) {
+      showRegistrationAlert("success", "User registered!", "You can now log in with your credentials.");
+    }
+
+    localStorage.removeItem("success");
   }
 
   return (
@@ -85,7 +119,7 @@ const Login = (props) => {
         </div>
       </Form>
 
-      <RegistrationAlert ref={registrationAlert}/>
+      <AlertInfo ref={loginAlert}/>
     </div>
   );
 }

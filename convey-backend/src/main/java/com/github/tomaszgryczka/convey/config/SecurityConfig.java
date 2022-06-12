@@ -46,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/chat").authenticated()
                 .antMatchers("/session").permitAll()
                 .antMatchers("/users").permitAll()
+                .antMatchers("/user/password").permitAll()
                 .anyRequest().denyAll()
                 .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)

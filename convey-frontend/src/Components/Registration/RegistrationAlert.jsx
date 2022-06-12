@@ -3,7 +3,7 @@ import { Alert } from "react-bootstrap";
 
 import "./RegistrationAlert.css";
 
-class RegistrationAlert extends Component {
+class AlertInfo extends Component {
     constructor(props) {
         super(props);
 
@@ -51,4 +51,4 @@ class RegistrationAlert extends Component {
     }
 }
 
-export default RegistrationAlert;
+export default AlertInfo;
