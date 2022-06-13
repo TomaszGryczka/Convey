@@ -6,6 +6,7 @@ import Registration from './Components/Registration/Registration.jsx';
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
 import { RecoilRoot } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
+import PasswordChange from './Components/PasswordChange/PasswordChange.jsx';
 
 const { persistAtom } = recoilPersist({
   key: "recoil-persist",
@@ -20,6 +21,7 @@ const App = (props) => {
               <Route element={<ProtectedRoute/>}>
                 <Route exact path="/chat" element={<Chat/>} />
               </Route>
+              <Route exact path="/password" element={<PasswordChange/>}/>
               <Route exact path='/login' element={<Login/>}/>
               <Route exact path='/register' element={<Registration/>}/>
               <Route exact path="/*" element={<Navigate to="/login"/>}/>

@@ -21,7 +21,6 @@ import { useNavigate } from "react-router-dom";
 let stompClient = null;
 
 const Chat = (props) => {
-
   const navigate = useNavigate();
 
   const [currentUser, setloggedInUser] = useRecoilState(loggedInUser);
@@ -35,7 +34,7 @@ const Chat = (props) => {
   const [text, setText] = useState("");
 
   useEffect(() => {
-    if(localStorage.getItem("accessToken") === null) {
+    if (localStorage.getItem("accessToken") === null) {
       navigate("/login");
     }
 
@@ -89,7 +88,6 @@ const Chat = (props) => {
 
   const loadContacts = () => {
     getUsers().then((users) => {
-
       let copyOfUsers = [...users];
 
       copyOfUsers.map((user) => {
@@ -99,23 +97,25 @@ const Chat = (props) => {
 
           return contactCopy;
         });
-      
+
         setContacts(copyOfUsers);
-        if (activeContact.id === undefined && copyOfUsers.length > 0 && currentUser.id !== undefined) {
-          
+        if (
+          activeContact.id === undefined &&
+          copyOfUsers.length > 0 &&
+          currentUser.id !== undefined
+        ) {
           let contactCopy = structuredClone(users[0]);
           contactCopy.newMessages = 0;
-          
+
           setActiveContact(copyOfUsers[0]);
-       }
-      
+        }
       });
       return copyOfUsers;
-    })
-  }
+    });
+  };
 
   const sendMessage = (msg) => {
-    if(currentUser.id === undefined || activeContact.id === undefined) {
+    if (currentUser.id === undefined || activeContact.id === undefined) {
       return;
     }
 
@@ -144,13 +144,17 @@ const Chat = (props) => {
     if (activeContact.id === notification.senderId) {
       findChatMessage(notification.id).then((message) => {
         const newMessages = [...messages];
-        newMessages.push(message)
+        newMessages.push(message);
         setMessages(newMessages);
       });
     } else {
-      message.info("Received new message from " + notification.senderName);
+      //message.info("Received new message from " + notification.senderName);
     }
     loadContacts();
+  };
+
+  const handleChangePassword = () => {
+    navigate("/password");
   };
 
   return (
@@ -159,7 +163,7 @@ const Chat = (props) => {
         <div className="profile">
           <div className="wrap">
             <div id="profile-img" className="online">
-            {(new String(currentUser.username)).charAt(0).toUpperCase()}
+              {new String(currentUser.username).charAt(0).toUpperCase()}
             </div>
             <p>{currentUser.username}</p>
             <div id="status-options">
@@ -203,8 +207,8 @@ const Chat = (props) => {
                     </div>
                     <div className="meta">
                       <p className="name">{contact.username}</p>
-                      {activeContact.id !== contact.id && 
-                      contact.newMessages !== undefined &&
+                      {activeContact.id !== contact.id &&
+                        contact.newMessages !== undefined &&
                         contact.newMessages > 0 && (
                           <p className="preview">
                             <span>{contact.newMessages} new messages</span>
@@ -222,7 +226,7 @@ const Chat = (props) => {
             <i className="fa fa-user fa-fw" aria-hidden="true"></i>{" "}
             <span>Profile</span>
           </Button> */}
-          <Button id="settings">
+          <Button id="settings" onClick={handleChangePassword}>
             <i className="fa fa-cog fa-fw" aria-hidden="true"></i>{" "}
             <span>Settings</span>
           </Button>
@@ -230,9 +234,15 @@ const Chat = (props) => {
       </div>
       <div className="content">
         <div className="contact-profile">
-          <div id="profile-img">
-            {activeContact.username !== undefined && activeContact.username.charAt(0).toUpperCase()}
-          </div>
+          {activeContact.username === undefined
+            ? null
+            : (
+                <div id="profile-img">
+                  {activeContact.username !== undefined &&
+                    activeContact.username.charAt(0).toUpperCase()}
+                </div>
+              )}
+
           <p>{activeContact && activeContact.username}</p>
         </div>
         <ScrollToBottom className="messages">

@@ -38,6 +38,14 @@ export function signUp(signUpRequest) {
     });
 }
 
+export function changePassword(changePasswordRequest) {
+    return request({
+        url: API_SERVICE + "/user/password",
+        method: "POST",
+        body: JSON.stringify(changePasswordRequest)
+    });
+}
+
 export function signIn(signInRequest) {
     return request({
         url: API_SERVICE + "/session",

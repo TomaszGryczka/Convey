@@ -21,6 +21,7 @@ const Login = (props) => {
     }
 
     signedUp();
+    changedPassword();
 
   }, [loginAlert.current])
   
@@ -78,6 +79,16 @@ const Login = (props) => {
     }
 
     localStorage.removeItem("success");
+  }
+
+  const changedPassword = () => {
+    const success = localStorage.getItem("successPassword");
+
+    if(success) {
+      showRegistrationAlert("success", "Password changed!", "You can now log in with your credentials.");
+    }
+
+    localStorage.removeItem("successPassword");
   }
 
   return (
