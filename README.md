@@ -1,4 +1,4 @@
-**<p align="center">THIS PROJECT HAS BEEN ABANDONED AND WILL NOT BE COMPLETED</p>**
+**<p align="center">THIS PROJECT HAS BEEN SUSPENDED AND PROBABLY WILL NOT BE COMPLETED</p>**
 
 # Convey
 One-to-one web chat application using Spring Boot, Hibernate and MySQL.
